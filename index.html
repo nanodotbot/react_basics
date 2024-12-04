@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Basics</title>
+
+    <link rel="icon" type="image/png" href="./imgs/favicon.ico">
+    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="./_header.css">
+    <link rel="stylesheet" href="./_footer.css">
+
+</head>
+
+<body>
+
+    <header id="header">
+
+        <div>
+            <h1 id="function">React Basics</h1>
+        </div>
+
+    </header>
+
+    <main>
+
+        <article>
+
+            <h2>Setup</h2>
+
+            <h3>Node.js</h3>
+            <p><a href="https://nodejs.org/en" target="_blank" rel="noopener noreferrer">https://nodejs.org/en</a></p>
+            
+        </article>
+
+        <article>
+
+            <h2>Create React App</h2>
+
+            <h3>Check Node version</h3>
+            <pre class="code-block"><code>node -v</code></pre>
+
+            <h3>Create React app</h3>
+            <pre class="code-block"><code>npx create-react-app .</code></pre>
+
+            <h3>Install dependencies</h3>
+            <p>located in package.json</p>
+            <pre class="code-block"><code>npm install</code></pre>
+            <p>Check Installed Packages</p>
+            <pre class="code-block"><code>npm list</code></pre>
+
+            <h3>Vulnerability issues</h3>
+            <pre class="code-block"><code>$ npm install
+
+up to date, audited 1360 packages in 3s
+
+263 packages are looking for funding
+  run `npm fund` for details
+
+8 vulnerabilities (2 moderate, 6 high)
+
+To address all issues (including breaking changes), run:    
+  npm audit fix --force
+
+Run `npm audit` for details.</code></pre>
+            
+            <h4>To see a detailed list of the vulnerabilities</h4>
+            <pre class="code-block"><code>npm audit</code></pre>
+
+            <h4>Try Automatic Fixes</h4>
+            <pre class="code-block"><code>npm audit fix</code></pre>
+
+            <h4>For More Aggressive Fixes</h4>
+            <pre class="code-block"><code>npm audit fix --force</code></pre>
+
+            <h4>Manually Update Dependencies</h4>
+            <pre class="code-block"><code>npm install &lt;package-name&gt;@latest</code></pre>
+
+            <h3>Run app</h3>
+            <pre class="code-block"><code>npm start</code></pre>
+
+        </article>
+
+
+        <article>
+
+            <h2>Install React Router</h2>
+            <pre class="code-block"><code>npm install react-router-dom</code></pre>
+
+        </article>
+
+        <article>
+
+            <h2>Basic structure and entry points</h2>
+
+            <h3>public/index.html</h3>
+            <p>This is the container where the entire React app is rendered. React uses this as the mounting point. | Any static meta tags, links, or other global configurations can be added here (e.g., favicon, viewport meta tag, etc.).</p>
+            <pre class="code-block"><code>&lt;div id="root"&gt;&lt;/div&gt;</code></pre>
+
+            <h3>src/index.js</h3>
+            <p>The JavaScript entry point where the app is initialized and rendered into the DOM.</p>
+            <p>This is where the App component is rendered inside the <code>&lt;div id="root"&gt;</code> in index.html:</p>
+            <pre class="code-block"><code>ReactDOM.createRoot(document.getElementById('root')).render(&lt;App /&gt;);</code></pre>
+
+            <h3>src/App.js</h3>
+            <p>The main component of your React app, typically serving as the root of your component tree. | Contains the default structure, such as a header or welcome message.</p>
+
+            <h3>src/App.css</h3>
+            <p>Default CSS for styling the App component. | To define or replace global styles for the app.</p>
+
+            <h3>src/index.css</h3>
+            <p>Global CSS styles for the entire app.</p>
+            <pre class="code-block"><code></code></pre>
+
+            <h3>src/assets/ or public/</h3>
+            <p>Files in public/ can be accessed directly via /path-to-file.</p>
+            <p>Files in src/ can be imported as modules (e.g., import logo from './assets/logo.png';).</p>
+            <pre class="code-block"><code></code></pre>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+    </main>
+
+    <footer>
+
+        <a href="./404.html">404.html</a>
+
+    </footer>
+
+</body>
+
+</html>

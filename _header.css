@@ -1,0 +1,31 @@
+header {
+  height: 100vh;
+  padding: calc(2 * var(--default-gap)) 0;
+  margin-bottom: calc(2 * var(--default-gap));
+  background-image: url('../imgs/pexels-evie-shaffer-2395249.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: grid;
+}
+header > div {
+  width: 700px;
+  max-width: 96vw;
+  margin: 0 auto;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+header > div > h1,
+header > div > p {
+  text-align: center;
+  color: var(--white);
+  color: var(--theme-independent-dark-text);
+  padding: 0 3rem;
+}
+header > div > h1 {
+  font-size: calc(4rem + 5vw);
+}
+header > div > p {
+  font-size: 2rem;
+}
