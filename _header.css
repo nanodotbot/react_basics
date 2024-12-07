@@ -2,7 +2,7 @@ header {
   height: 100vh;
   padding: calc(2 * var(--default-gap)) 0;
   margin-bottom: calc(2 * var(--default-gap));
-  background-image: url('../imgs/pexels-evie-shaffer-2395249.jpg');
+  background-image: url('../imgs/pexels-evie-shaffer-2395250.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -19,8 +19,8 @@ header > div {
 header > div > h1,
 header > div > p {
   text-align: center;
-  color: var(--white);
   color: var(--theme-independent-dark-text);
+  background-color: hsla(208, 100%, 97%, 0.7);
   padding: 0 3rem;
 }
 header > div > h1 {
