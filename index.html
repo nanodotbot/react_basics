@@ -100,6 +100,13 @@ Run `npm audit` for details.</code></pre>
             <p>This is the container where the entire React app is rendered. React uses this as the mounting point. | Any static meta tags, links, or other global configurations can be added here (e.g., favicon, viewport meta tag, etc.).</p>
             <pre class="code-block"><code>&lt;div id="root"&gt;&lt;/div&gt;</code></pre>
 
+            <h4>...</h4>
+            <pre class="code-block"><code>&gt;link rel="icon" href="%PUBLIC_URL%/favicon.ico" /&lt;</code></pre>
+            <pre class="code-block"><code>&gt;meta name="description" content="A react playground" /&lt;</code></pre>
+            <pre class="code-block"><code>&gt;link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" /&lt;</code></pre>
+            <pre class="code-block"><code>&gt;title&lt;React playground&gt;/title&lt;</code></pre>
+            <pre class="code-block"><code>&gt;noscript&lt;You need to enable JavaScript to run this app.&gt;/noscript&lt;</code></pre>
+
             <h3>src/index.js</h3>
             <p>The JavaScript entry point where the app is initialized and rendered into the DOM.</p>
             <p>This is where the App component is rendered inside the <code>&lt;div id="root"&gt;</code> in index.html:</p>
@@ -113,25 +120,410 @@ Run `npm audit` for details.</code></pre>
 
             <h3>src/index.css</h3>
             <p>Global CSS styles for the entire app.</p>
+                        <pre class="code-block"><code>--dark: #181818;
+--grey-lightest: #f2f2f2;
+--blue-default: #aedded;
+--link-text: var(--blue-darkest);
+--button-hover-text: var(--blue-darkest);
+
+--theme: var(--dark);
+--text: var(--grey-lightest);</code></pre>
 
             <h3>src/assets/ or public/</h3>
             <p>Files in public/ can be accessed directly via /path-to-file.</p>
             <p>Files in src/ can be imported as modules (e.g., import logo from './assets/logo.png';).</p>
 
-            <h3></h3>
+            <h3>public/manifest.json</h3>
             <p>The manifest.json file provides metadata about the app, which browsers and devices can use to display the app correctly when installed or launched as a PWA. It helps define how your app will appear on the user's home screen, in taskbars, and on startup.</p>
 
+            <h4>manifest.json</h4>
+            <pre class="code-block"><code>{
+    "short_name": "React playground",
+    "name": "Just a react playground",
+    "icons": [
+        {
+            "src": "favicon.ico",
+            "sizes": "140x140",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "logo.png",
+            "type": "image/png",
+            "sizes": "140x140"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#181818", // "theme_color": "#aedded"
+    "background_color": "#181818"
+}</code></pre>
 
         </article>
 
         <article>
 
-            <h2>Details</h2>
+            <h2>Components</h2>
+
+            <h3>Folder structure</h3>
+            <p>The most common approach is to store components inside a src/components/ directory. You can create subfolders for specific types of components, but for now, simple components like Header and Footer can be placed directly under the components folder.</p>
+            <pre class="code-block"><code>src/
+    components/
+        Layout.js
+        Header.js
+        Footer.js
+    pages/
+        
+    styles/
+        Layout.js
+        Header.css
+        Footer.css</code></pre>
+
+            <h3>Component File Naming</h3>
+            <p>Use PascalCase (capitalizing the first letter of each word) for component file names to follow convention.</p>
+
+        </article>
+
+        <article>
+
+            <h2>ES7+ React/Redux/React-Native/JS Snippets</h2>
+            <p>VS Code Extension</p>
+
+            <h3>rafc</h3>
+            <p>Generates a arrow function component skeleton</p>
+            <pre class="code-block"><code>import React from 'react'
+
+export const ComponentName = () => {
+    return &lt;div&gt;ComponentName&lt;/div&gt;
+}</code></pre>
+
+            <h3>rfce</h3>
+            <p>Generates a functional component with an export statement.</p>
+            <pre class="code-block"><code>import React from 'react'
+
+function ComponentName() {
+    return &lt;div&gt;ComponentName&lt;/div&gt;
+}
+
+export default ComponentName</code></pre>
+
+            <h3>rcc</h3>
+            <p>Generates a class component skeleton.</p>
+            <pre class="code-block"><code>import React, { Component } from 'react'
+
+export default class ComponentName extends Component {
+    render() {
+        return &lt;div&gt;ComponentName&lt;/div&gt;
+    }
+}</code></pre>
+
+            <h3>useState</h3>
+            <h3>useStateSnippet</h3>
+            <p>Quickly create a state hook.</p>
+            <pre class="code-block"><code>const [state, setState] = useState(initialState)</code></pre>
+
+            <h3>useEffect</h3>
+            <h3>useEffectSnippet</h3>
+            <p>Quickly create an effect hook.</p>
+            <pre class="code-block"><code>useEffect(() => {
+    // Effect logic here
+    return () => {
+        // Cleanup logic here
+    }
+}, [dependencies])</code></pre>
+
+            <h3>Header</h3>
+            <p>Imports /components/Header.js</p>
+            <pre class="code-block"><code>import { Header } from './components/Header'</code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
 
             <h3></h3>
             <p></p>
-            <pre class="code-block"><code>&lt;link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" /&gt;</code></pre>
+            <pre class="code-block"><code></code></pre>
 
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
 
         </article>
 
