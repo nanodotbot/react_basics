@@ -33,7 +33,7 @@
 
             <h3>Node.js</h3>
             <p><a href="https://nodejs.org/en" target="_blank" rel="noopener noreferrer">https://nodejs.org/en</a></p>
-            
+
         </article>
 
         <article>
@@ -66,7 +66,7 @@ To address all issues (including breaking changes), run:
   npm audit fix --force
 
 Run `npm audit` for details.</code></pre>
-            
+
             <h4>To see a detailed list of the vulnerabilities</h4>
             <pre class="code-block"><code>npm audit</code></pre>
 
@@ -79,16 +79,11 @@ Run `npm audit` for details.</code></pre>
             <h4>Manually Update Dependencies</h4>
             <pre class="code-block"><code>npm install &lt;package-name&gt;@latest</code></pre>
 
+            <h3>Install React Router</h3>
+            <pre class="code-block"><code>npm install react-router-dom</code></pre>
+
             <h3>Run app</h3>
             <pre class="code-block"><code>npm start</code></pre>
-
-        </article>
-
-
-        <article>
-
-            <h2>Install React Router</h2>
-            <pre class="code-block"><code>npm install react-router-dom</code></pre>
 
         </article>
 
@@ -97,30 +92,123 @@ Run `npm audit` for details.</code></pre>
             <h2>Basic structure and entry points</h2>
 
             <h3>public/index.html</h3>
-            <p>This is the container where the entire React app is rendered. React uses this as the mounting point. | Any static meta tags, links, or other global configurations can be added here (e.g., favicon, viewport meta tag, etc.).</p>
+            <p>This is the container where the entire React app is rendered. React uses this as the mounting point. |
+                Any static meta tags, links, or other global configurations can be added here (e.g., favicon, viewport
+                meta tag, etc.).</p>
             <pre class="code-block"><code>&lt;div id="root"&gt;&lt;/div&gt;</code></pre>
 
             <h4>...</h4>
             <pre class="code-block"><code>&gt;link rel="icon" href="%PUBLIC_URL%/favicon.ico" /&lt;</code></pre>
             <pre class="code-block"><code>&gt;meta name="description" content="A react playground" /&lt;</code></pre>
-            <pre class="code-block"><code>&gt;link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" /&lt;</code></pre>
+            <pre
+                class="code-block"><code>&gt;link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" /&lt;</code></pre>
             <pre class="code-block"><code>&gt;title&lt;React playground&gt;/title&lt;</code></pre>
-            <pre class="code-block"><code>&gt;noscript&lt;You need to enable JavaScript to run this app.&gt;/noscript&lt;</code></pre>
+            <pre
+                class="code-block"><code>&gt;noscript&lt;You need to enable JavaScript to run this app.&gt;/noscript&lt;</code></pre>
 
             <h3>src/index.js</h3>
             <p>The JavaScript entry point where the app is initialized and rendered into the DOM.</p>
-            <p>This is where the App component is rendered inside the <code>&lt;div id="root"&gt;</code> in index.html:</p>
-            <pre class="code-block"><code>ReactDOM.createRoot(document.getElementById('root')).render(&lt;App /&gt;);</code></pre>
+            <p>This is where the App component is rendered inside the <code>&lt;div id="root"&gt;</code> in index.html:
+            </p>
+            <pre
+                class="code-block"><code>ReactDOM.createRoot(document.getElementById('root')).render(&lt;App /&gt;);</code></pre>
 
             <h3>src/App.js</h3>
-            <p>The main component of your React app, typically serving as the root of your component tree. | Contains the default structure, such as a header or welcome message.</p>
+            <p>The main component of your React app, typically serving as the root of your component tree. | Contains
+                the default structure, such as a header or welcome message.</p>
+            <p>Routing setup and route definitions.</p>
+            <pre class="code-block"><code>import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css';
+import { Layout } from './components/Layout';
+import { Home } from './pages/Home';
+import { About } from './pages/About';
+
+function App() {
+    return (
+        &lt;Router&gt;
+            &lt;Routes&gt;
+                {/* Layout Component Wrapping Pages */}
+                &lt;Route path="/" element={&lt;Layout /&gt;}&gt;
+                    &lt;Route index element={&lt;Home /&gt;} /&gt; {/* Default route */}
+                    &lt;Route path="about" element={&lt;About /&gt;} /&gt;
+                &lt;/Route&gt;
+            &lt;/Routes&gt;
+        &lt;/Router&gt;
+    );
+}
+
+export default App;</code></pre>
+
+            <h4>src/components/Layout.js</h4>
+            <p>Common layout structure and the Outlet for page content.</p>
+            <pre class="code-block"><code>import React from 'react'
+import { Outlet } from 'react-router-dom'
+import { Header } from './Header'
+import { Footer } from './Footer'
+
+export const Layout = () => {
+    return (
+        &lt;&gt;
+            &lt;Header&gt;&lt;/Header&gt;
+            &lt;main&gt;
+                &lt;Outlet /&gt;
+            &lt;/main&gt;
+            &lt;Footer&gt;&lt;/Footer&gt;
+        &lt;/&gt;
+    )
+}</code></pre>
+
+            <h5>&lt;Outlet /&gt;</h5>
+            <p>&lt;Outlet /&gt; is a placeholder component in your layout route. When a route matches a nested path, React Router will insert the child route’s component into the place where &lt;Outlet /&gt; is used.</p>
+            <h6>src/App.js</h6>
+            <pre class="code-block"><code>&lt;Route path="/" element={&lt;Layout /&gt;}&gt;
+    &lt;Route index element={&lt;Home /&gt;} /&gt;
+    &lt;Route path="about" element={&lt;About /&gt;} /&gt;
+&lt;/Route&gt;</code></pre>
+            <h6>src/components/Layout.js</h6>
+            <pre class="code-block"><code>import { Outlet } from 'react-router-dom';
+
+export const Layout = () => {
+    return (
+        &lt;&gt;
+            &lt;header&gt;Header&lt;/header&gt;
+            &lt;Outlet /&gt; {/* The nested routes like Home and About render here */}
+            &lt;footer&gt;Footer&lt;/footer&gt;
+        &lt;/&gt;
+    );
+};</code></pre>
+
+            <h4>src/components/Home.js</h4>
+            <p>Content specific to that page.</p>
+            <pre class="code-block"><code>import React from 'react'
+
+export const Home = () => {
+    return (
+        &lt;&gt;Home&lt;/&gt;
+    )
+}</code></pre>
+
+            <h4>src/components/About.js</h4>
+            <p>Content specific to that page.</p>
+            <pre class="code-block"><code>import React from 'react'
+
+export const About = () => {
+    return (
+        &lt;&gt;About&lt;/&gt;
+    )
+}</code></pre>
 
             <h3>src/App.css</h3>
             <p>Default CSS for styling the App component. | To define or replace global styles for the app.</p>
+            <pre class="code-block"><code>#root {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: max-content 1fr max-content;
+}</code></pre>
 
             <h3>src/index.css</h3>
             <p>Global CSS styles for the entire app.</p>
-                        <pre class="code-block"><code>--dark: #181818;
+            <pre class="code-block"><code>--dark: #181818;
 --grey-lightest: #f2f2f2;
 --blue-default: #aedded;
 --link-text: var(--blue-darkest);
@@ -134,7 +222,9 @@ Run `npm audit` for details.</code></pre>
             <p>Files in src/ can be imported as modules (e.g., import logo from './assets/logo.png';).</p>
 
             <h3>public/manifest.json</h3>
-            <p>The manifest.json file provides metadata about the app, which browsers and devices can use to display the app correctly when installed or launched as a PWA. It helps define how your app will appear on the user's home screen, in taskbars, and on startup.</p>
+            <p>The manifest.json file provides metadata about the app, which browsers and devices can use to display the
+                app correctly when installed or launched as a PWA. It helps define how your app will appear on the
+                user's home screen, in taskbars, and on startup.</p>
 
             <h4>manifest.json</h4>
             <pre class="code-block"><code>{
@@ -165,7 +255,9 @@ Run `npm audit` for details.</code></pre>
             <h2>Components</h2>
 
             <h3>Folder structure</h3>
-            <p>The most common approach is to store components inside a src/components/ directory. You can create subfolders for specific types of components, but for now, simple components like Header and Footer can be placed directly under the components folder.</p>
+            <p>The most common approach is to store components inside a src/components/ directory. You can create
+                subfolders for specific types of components, but for now, simple components like Header and Footer can
+                be placed directly under the components folder.</p>
             <pre class="code-block"><code>src/
     components/
         Layout.js
@@ -179,7 +271,8 @@ Run `npm audit` for details.</code></pre>
         Footer.css</code></pre>
 
             <h3>Component File Naming</h3>
-            <p>Use PascalCase (capitalizing the first letter of each word) for component file names to follow convention.</p>
+            <p>Use PascalCase (capitalizing the first letter of each word) for component file names to follow
+                convention.</p>
 
         </article>
 
