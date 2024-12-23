@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+&lt;head&gt;
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,6 +33,9 @@
 
             <h3>Node.js</h3>
             <p><a href="https://nodejs.org/en" target="_blank" rel="noopener noreferrer">https://nodejs.org/en</a></p>
+
+            <h3>VS Code Extension</h3>
+            <p>ES7+ React/Redux/React-Native/JS Snippets</p>
 
         </article>
 
@@ -92,36 +95,29 @@ Run `npm audit` for details.</code></pre>
             <h2>Basic structure and entry points</h2>
 
             <h3>public/index.html</h3>
-            <p>This is the container where the entire React app is rendered. React uses this as the mounting point. |
-                Any static meta tags, links, or other global configurations can be added here (e.g., favicon, viewport
-                meta tag, etc.).</p>
+            <p>This is the container where the entire React app is rendered. React uses this as the mounting point. | Any static meta tags, links, or other global configurations can be added here (e.g., favicon, viewport meta tag, etc.).</p>
             <pre class="code-block"><code>&lt;div id="root"&gt;&lt;/div&gt;</code></pre>
 
             <h4>...</h4>
             <pre class="code-block"><code>&gt;link rel="icon" href="%PUBLIC_URL%/favicon.ico" /&lt;</code></pre>
             <pre class="code-block"><code>&gt;meta name="description" content="A react playground" /&lt;</code></pre>
-            <pre
-                class="code-block"><code>&gt;link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" /&lt;</code></pre>
+            <pre class="code-block"><code>&gt;link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" /&lt;</code></pre>
             <pre class="code-block"><code>&gt;title&lt;React playground&gt;/title&lt;</code></pre>
-            <pre
-                class="code-block"><code>&gt;noscript&lt;You need to enable JavaScript to run this app.&gt;/noscript&lt;</code></pre>
+            <pre class="code-block"><code>&gt;noscript&lt;You need to enable JavaScript to run this app.&gt;/noscript&lt;</code></pre>
 
             <h3>src/index.js</h3>
             <p>The JavaScript entry point where the app is initialized and rendered into the DOM.</p>
-            <p>This is where the App component is rendered inside the <code>&lt;div id="root"&gt;</code> in index.html:
-            </p>
-            <pre
-                class="code-block"><code>ReactDOM.createRoot(document.getElementById('root')).render(&lt;App /&gt;);</code></pre>
+            <p>This is where the App component is rendered inside the <code>&lt;div id="root"&gt;</code> in index.html:</p>
+            <pre class="code-block"><code>ReactDOM.createRoot(document.getElementById('root')).render(&lt;App /&gt;);</code></pre>
 
             <h3>src/App.js</h3>
-            <p>The main component of your React app, typically serving as the root of your component tree. | Contains
-                the default structure, such as a header or welcome message.</p>
+            <p>The main component of your React app, typically serving as the root of your component tree. | Contains the default structure, such as a header or welcome message.</p>
             <p>Routing setup and route definitions.</p>
             <pre class="code-block"><code>import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import { Layout } from './components/Layout';
-import { Home } from './pages/Home';
-import { About } from './pages/About';
+import Layout from './components/Layout';
+import Home from './pages/Home';
+import About from './pages/About';
 
 function App() {
     return (
@@ -143,52 +139,63 @@ export default App;</code></pre>
             <p>Common layout structure and the Outlet for page content.</p>
             <pre class="code-block"><code>import React from 'react'
 import { Outlet } from 'react-router-dom'
-import { Header } from './Header'
-import { Footer } from './Footer'
+import Header from './Header'
+import Footer from './Footer'
 
 export const Layout = () => {
     return (
         &lt;&gt;
-            &lt;Header&gt;&lt;/Header&gt;
+            &lt;Header /&gt;
             &lt;main&gt;
                 &lt;Outlet /&gt;
             &lt;/main&gt;
-            &lt;Footer&gt;&lt;/Footer&gt;
+            &lt;Footer /&gt;
         &lt;/&gt;
     )
 }</code></pre>
 
             <h5>&lt;Outlet /&gt;</h5>
             <p>&lt;Outlet /&gt; is a placeholder component in your layout route. When a route matches a nested path, React Router will insert the child route’s component into the place where &lt;Outlet /&gt; is used.</p>
+
             <h6>src/App.js</h6>
             <pre class="code-block"><code>&lt;Route path="/" element={&lt;Layout /&gt;}&gt;
     &lt;Route index element={&lt;Home /&gt;} /&gt;
     &lt;Route path="about" element={&lt;About /&gt;} /&gt;
 &lt;/Route&gt;</code></pre>
-            <h6>src/components/Layout.js</h6>
-            <pre class="code-block"><code>import { Outlet } from 'react-router-dom';
 
-export const Layout = () => {
+            <h6>src/components/Layout.js</h6>
+            <pre class="code-block"><code>import React from 'react'
+import { Outlet } from 'react-router-dom'
+import Header from './Header'
+import Footer from './Footer'
+
+const Layout = () => {
     return (
         &lt;&gt;
-            &lt;header&gt;Header&lt;/header&gt;
-            &lt;Outlet /&gt; {/* The nested routes like Home and About render here */}
-            &lt;footer&gt;Footer&lt;/footer&gt;
+            &lt;Header /&gt;
+            &lt;main&gt;
+                &lt;Outlet /&gt;
+            &lt;/main&gt;
+            &lt;Footer /&gt;
         &lt;/&gt;
     );
-};</code></pre>
+};
 
-            <h4>src/components/Home.js</h4>
+export default Layout</code></pre>
+
+            <h4>src/pages/Home.js</h4>
             <p>Content specific to that page.</p>
             <pre class="code-block"><code>import React from 'react'
 
-export const Home = () => {
+const Home = () => {
     return (
         &lt;&gt;Home&lt;/&gt;
     )
-}</code></pre>
+}
 
-            <h4>src/components/About.js</h4>
+export default Home</code></pre>
+
+            <h4>src/pages/About.js</h4>
             <p>Content specific to that page.</p>
             <pre class="code-block"><code>import React from 'react'
 
@@ -196,7 +203,9 @@ export const About = () => {
     return (
         &lt;&gt;About&lt;/&gt;
     )
-}</code></pre>
+}
+
+export default About</code></pre>
 
             <h3>src/App.css</h3>
             <p>Default CSS for styling the App component. | To define or replace global styles for the app.</p>
@@ -222,9 +231,7 @@ export const About = () => {
             <p>Files in src/ can be imported as modules (e.g., import logo from './assets/logo.png';).</p>
 
             <h3>public/manifest.json</h3>
-            <p>The manifest.json file provides metadata about the app, which browsers and devices can use to display the
-                app correctly when installed or launched as a PWA. It helps define how your app will appear on the
-                user's home screen, in taskbars, and on startup.</p>
+            <p>The manifest.json file provides metadata about the app, which browsers and devices can use to display the app correctly when installed or launched as a PWA. It helps define how your app will appear on the user's home screen, in taskbars, and on startup.</p>
 
             <h4>manifest.json</h4>
             <pre class="code-block"><code>{
@@ -233,8 +240,8 @@ export const About = () => {
     "icons": [
         {
             "src": "favicon.ico",
-            "sizes": "140x140",
-            "type": "image/x-icon"
+            "type": "image/x-icon",
+            "sizes": "140x140"
         },
         {
             "src": "logo.png",
@@ -254,25 +261,24 @@ export const About = () => {
 
             <h2>Components</h2>
 
+            <p><a href="https://www.w3schools.com/js/js_modules.asp">https://www.w3schools.com/js/js_modules.asp</a></p>
+
             <h3>Folder structure</h3>
-            <p>The most common approach is to store components inside a src/components/ directory. You can create
-                subfolders for specific types of components, but for now, simple components like Header and Footer can
-                be placed directly under the components folder.</p>
+            <p>The most common approach is to store components inside a src/components/ directory. You can create subfolders for specific types of components, but for now, simple components like Header and Footer can be placed directly under the components folder.</p>
             <pre class="code-block"><code>src/
     components/
         Layout.js
         Header.js
         Footer.js
     pages/
-        
+        Home.js
+        About.js
     styles/
-        Layout.js
         Header.css
         Footer.css</code></pre>
 
             <h3>Component File Naming</h3>
-            <p>Use PascalCase (capitalizing the first letter of each word) for component file names to follow
-                convention.</p>
+            <p>Use PascalCase (capitalizing the first letter of each word) for component file names to follow convention.</p>
 
         </article>
 
@@ -288,6 +294,18 @@ export const About = () => {
 export const ComponentName = () => {
     return &lt;div&gt;ComponentName&lt;/div&gt;
 }</code></pre>
+
+            <h3>rafce</h3>
+            <p></p>
+            <pre class="code-block"><code>import React from 'react'
+
+const ComponentName = () => {
+    return (
+        &lt;div&gt;ComponentName&lt;/div&gt;
+    )
+}
+
+export default ComponentName</code></pre>
 
             <h3>rfce</h3>
             <p>Generates a functional component with an export statement.</p>
@@ -332,11 +350,435 @@ export default class ComponentName extends Component {
 
         <article>
 
-            <h2></h2>
+            <h2>404</h2>
 
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
+            <h3>src/pages/NotFound.js</h3>
+            <pre class="code-block"><code>import React from 'react';
+
+const NotFound = () => {
+    return (
+        &lt;div&gt;
+            &lt;h2&gt;404 - Page Not Found&lt;/h2&gt;
+            &lt;p&gt;The page you are looking for doesn't exist.&lt;/p&gt;
+        &lt;/div&gt;
+    );
+};
+
+export default NotFound;</code></pre>
+
+            <h3>src/App.js</h3>
+            <p>React Router tries to match the user’s URL against the defined paths (e.g., /, /about). | If no route matches, it falls back to the path="*" route, rendering the NotFound component.</p>
+            <pre class="code-block"><code>import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css';
+import Layout from './components/Layout';
+import Home from './pages/Home';
+import About from './pages/About';
+import NotFound from './pages/NotFound';
+
+function App() {
+    return (
+        &lt;Router&gt;
+            &lt;Routes&gt;
+                {/* Layout Component Wrapping Pages */}
+                &lt;Route path="/" element={&lt;Layout /&gt;}&gt;
+                    &lt;Route index element={&lt;Home /&gt;} /&gt; {/* Default route */}
+                    &lt;Route path="about" element={&lt;About /&gt;} /&gt;
+                    {/* The 404 Route */}
+                    &lt;Route path="*" element={&lt;NotFound /&gt;} /&gt;
+                &lt;/Route&gt;
+            &lt;/Routes&gt;
+        &lt;/Router&gt;
+    );
+}
+
+export default App;</code></pre>
+            <p>You can decide where to place the 404 route. If you put it inside the &lt;Layout&gt; route, the 404 page will still render with your layout (e.g., header and footer). If you want a standalone 404 page without the layout, you could define a path="*" route outside of the &lt;Layout&gt; route. | Make sure this catch-all route is at the end of your &lt;Routes&gt; block (although in v6, the order doesn’t matter as much, because the matching logic is different than older versions). | If you have nested routes, you can add an additional path="*" route at each level if needed.</p>
+
+        </article>
+
+        <article>
+
+            <h2>&lt;head&gt;</h2>
+
+            <h3>Using React Helmet</h3>
+            <p><a href="https://github.com/nfl/react-helmet" target="_blank" rel="noopener noreferrer">https://github.com/nfl/react-helmet</a></p>
+            <pre class="code-block"><code>npm install react-helmet</code></pre>
+            <pre class="code-block"><code>// src/pages/About.js
+import React from 'react';
+import { Helmet } from 'react-helmet';
+
+const About = () => {
+    return (
+        &lt;&gt;
+            &lt;Helmet&gt;
+                &lt;title&gt;About | My React App&lt;/title&gt;
+                &lt;meta name="description" content="About the app" /&gt;
+            &lt;/Helmet&gt;
+            &lt;h2&gt;About This App&lt;/h2&gt;
+            &lt;p&gt;This is the About page.&lt;/p&gt;
+        &lt;/&gt;
+    );
+};
+
+export default About;</code></pre>
+
+            <h3>Using document.title Manually</h3>
+            <pre class="code-block"><code>// src/pages/About.js
+import React from 'react';
+
+const About = () => {
+    React.useEffect(() => {
+        document.title = 'About | My React App';
+    }, []);
+
+    // Change meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+        metaDescription.setAttribute('content', 'This is the About page description.');
+    }
+
+    return (
+        &lt;div&gt;
+            &lt;h2&gt;About This App&lt;/h2&gt;
+            &lt;p&gt;This is the About page content.&lt;/p&gt;
+        &lt;/div&gt;
+    );
+};
+
+export default About;</code></pre>
+
+            <h3>Which Method to Choose?</h3>
+
+            <p>React Helmet (or react-helmet-async) is preferred if: You have multiple meta tags, including description, keywords, or Open Graph tags for social sharing. | You want a more declarative approach, placing head elements near each page’s content.</p>
+
+            <p>Manual document.title is simpler if: You only need to set the title and don’t frequently handle other meta tags. | You prefer a minimal approach without extra libraries.</p>
+
+            <p><a href="https://www.w3schools.com/jsref/dom_obj_document.asp" target="_blank" rel="noopener noreferrer">https://www.w3schools.com/jsref/dom_obj_document.asp</a></p>
+
+        </article>
+
+        <article>
+
+            <h2>Fetch</h2>
+
+            <h3>Vanilla JS Approach (Using fetch)</h3>
+            <pre class="code-block"><code>// src/pages/UsersFetch.js
+import React from 'react';
+
+const UsersFetch = () => {
+    const [users, setUsers] = React.useState([]);
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState(null);
+
+    React.useEffect(() => {
+        setLoading(true);
+        fetch('https://jsonplaceholder.typicode.com/users') // Replace with your API endpoint
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                setUsers(data);
+                setError(null);
+            })
+            .catch(err => {
+                setError(err.message);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, []);
+
+    if (loading) return &lt;p&gt;Loading users...&lt;/p&gt;;
+    if (error) return &lt;p style={{ color: 'red' }}&gt;Error: {error}&lt;/p&gt;;
+
+    return (
+        &lt;div&gt;
+            &lt;h2&gt;Users (Fetch)&lt;/h2&gt;
+            &lt;ul&gt;
+                {users.map(user =&gt; (
+                    &lt;li key={user.id}&gt;
+                        {user.name} – {user.email}
+                    &lt;/li&gt;
+                ))}
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    );
+};
+
+export default UsersFetch;</code></pre>
+
+            <p><a href="https://www.w3schools.com/jsref/api_fetch.asp" target="_blank" rel="noopener noreferrer">https://www.w3schools.com/jsref/api_fetch.asp</a></p>
+
+            <h3>Axios Approach</h3>
+            <pre class="code-block"><code>npm install axios</code></pre>
+            <pre class="code-block"><code>// src/pages/UsersAxios.js
+import React from 'react';
+import axios from 'axios';
+
+const UsersAxios = () => {
+    const [users, setUsers] = React.useState([]);
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState(null);
+
+    React.useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                setLoading(true);
+                const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+                // Replace with your API endpoint
+                setUsers(response.data);
+                setError(null);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUsers();
+    }, []);
+
+    if (loading) return &lt;p&gt;Loading users...&lt;/p&gt;;
+    if (error) return &lt;p style={{ color: 'red' }}&gt;Error: {error}&lt;/p&gt;;
+
+    return (
+        &lt;div&gt;
+            &lt;h2&gt;Users (Axios)&lt;/h2&gt;
+            &lt;ul&gt;
+                {users.map(user =&gt; (
+                    &lt;li key={user.id}&gt;
+                        {user.name} – {user.email}
+                    &lt;/li&gt;
+                ))}
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    );
+};
+
+export default UsersAxios;</code></pre>
+
+            <h4>Features of Axios</h4>
+            <p>Automatic JSON Transform: Axios automatically parses JSON responses, so you don’t have to manually call .json(). | Better Error Handling: Errors are consolidated, and you don’t have to manually check response.ok. | Interceptors & More: Axios provides powerful features like interceptors (for token refresh, custom headers, logging, etc.).</p>
+
+        </article>
+
+        <article>
+
+            <h2>Create</h2>
+
+            <pre class="code-block"><code>import React from 'react';
+
+const CreateUser = () => {
+    const [name, setName] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState(null);
+    const [success, setSuccess] = React.useState(null);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // Reset previous states
+        setError(null);
+        setSuccess(null);
+        setLoading(true);
+
+        // Perform the POST request (using a public test API endpoint, or your own)
+        fetch('https://jsonplaceholder.typicode.com/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                // The data to send
+                name,
+                email,
+            }),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    // If server returns an error status
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                // Clear form fields
+                setName('');
+                setEmail('');
+                setSuccess('User created successfully!');
+            })
+            .catch((err) => {
+                setError(err.message);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+    return (
+        &lt;div style={{ padding: '20px' }}&gt;
+            &lt;h2&gt;Create a New User&lt;/h2&gt;
+
+            {/* Feedback Messages */}
+            {loading && &lt;p&gt;Creating user...&lt;/p&gt;}
+            {error && &lt;p style={{ color: 'red' }}&gt;{error}&lt;/p&gt;}
+            {success && &lt;p style={{ color: 'green' }}&gt;{success}&lt;/p&gt;}
+
+            {/* The Form */}
+            &lt;form onSubmit={handleSubmit} style={{ maxWidth: '300px' }}&gt;
+                &lt;div style={{ marginBottom: '10px' }}&gt;
+                    &lt;label&gt;
+                        Name:
+                        &lt;input
+                            type="text"
+                            value={name}
+                            onChange={(e) =&gt; setName(e.target.value)}
+                            required
+                            style={{ display: 'block', width: '100%' }}
+                        /&gt;
+                    &lt;/label&gt;
+                &lt;/div&gt;
+
+                &lt;div style={{ marginBottom: '10px' }}&gt;
+                    &lt;label&gt;
+                        Email:
+                        &lt;input
+                            type="email"
+                            value={email}
+                            onChange={(e) =&gt; setEmail(e.target.value)}
+                            required
+                            style={{ display: 'block', width: '100%' }}
+                        /&gt;
+                    &lt;/label&gt;
+                &lt;/div&gt;
+
+                &lt;button type="submit" disabled={loading}&gt;
+                    Create User
+                &lt;/button&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+    );
+};
+
+export default CreateUser;
+</code></pre>
+
+            <h3>Validation</h3>
+            <p>Add more client-side checks (e.g., min length, specific patterns).</p>
+
+        </article>
+
+        <article>
+
+            <h2>Animations</h2>
+
+            <h3>React Transition Group</h3>
+            <pre class="code-block"><code>npm install react-transition-group</code></pre>
+            <pre class="code-block"><code>import React from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import './myTransitions.css'; // define your .fade-enter, .fade-exit, etc.
+
+const MyList = ({ items }) => {
+    return (
+        &lt;TransitionGroup&gt;
+            {items.map(item =&gt; (
+                &lt;CSSTransition
+                    key={item.id}
+                    timeout={300}
+                    classNames="fade"
+                &gt;
+                    &lt;div&gt;{item.text}&lt;/div&gt;
+                &lt;/CSSTransition&gt;
+            ))}
+        &lt;/TransitionGroup&gt;
+    );
+};
+
+export default MyList;</code></pre>
+            <pre class="code-block"><code>/* myTransitions.css */
+.fade-enter {
+    opacity: 0;
+}
+.fade-enter.fade-enter-active {
+    opacity: 1;
+    transition: opacity 300ms;
+}
+
+.fade-exit {
+    opacity: 1;
+}
+.fade-exit.fade-exit-active {
+    opacity: 0;
+    transition: opacity 300ms;
+}</code></pre>
+
+            <h3>Framer Motion</h3>
+            <pre class="code-block"><code>npm install framer-motion</code></pre>
+            <pre class="code-block"><code>import React from 'react';
+import { motion } from 'framer-motion';
+
+const Box = () => {
+    return (
+        &lt;motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            style={{
+                width: 100,
+                height: 100,
+                backgroundColor: 'skyblue',
+                margin: 'auto',
+            }}
+        /&gt;
+    );
+};
+
+export default Box;</code></pre>
+
+            <h3>React Spring</h3>
+            <pre class="code-block"><code>npm install react-spring</code></pre>
+            <pre class="code-block"><code>import React from 'react';
+import { useSpring, animated } from 'react-spring';
+
+const FadeIn = () => {
+    const props = useSpring({
+        from: { opacity: 0 },
+        to: { opacity: 1 },
+        config: { duration: 500 },
+    });
+
+    return &lt;animated.div style={props}&gt;Hello React Spring!&lt;/animated.div&gt;;
+};
+
+export default FadeIn;</code></pre>
+
+            <h3>GreenSock (GSAP)</h3>
+            <pre class="code-block"><code>npm install gsap</code></pre>
+            <pre class="code-block"><code>import React, { useRef, useEffect } from 'react';
+import gsap from 'gsap';
+
+const GSAPDemo = () =&gt; {
+    const boxRef = useRef(null);
+
+    useEffect(() =&gt; {
+        gsap.fromTo(boxRef.current, { x: 0 }, { x: 200, duration: 1 });
+    }, []);
+
+    return (
+        &lt;div
+        ref={boxRef}
+        style={{ width: 100, height: 100, backgroundColor: 'pink' }}
+        &gt;
+        GSAP Animation
+        &lt;/div&gt;
+    );
+};
+
+export default GSAPDemo;</code></pre>
 
         </article>
 
@@ -349,277 +791,6 @@ export default class ComponentName extends Component {
             <pre class="code-block"><code></code></pre>
 
         </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
-        <article>
-
-            <h2></h2>
-
-            <h3></h3>
-            <p></p>
-            <pre class="code-block"><code></code></pre>
-
-        </article>
-
 
     </main>
 
