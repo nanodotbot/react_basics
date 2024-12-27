@@ -99,11 +99,11 @@ Run `npm audit` for details.</code></pre>
             <pre class="code-block"><code>&lt;div id="root"&gt;&lt;/div&gt;</code></pre>
 
             <h4>...</h4>
-            <pre class="code-block"><code>&gt;link rel="icon" href="%PUBLIC_URL%/favicon.ico" /&lt;</code></pre>
-            <pre class="code-block"><code>&gt;meta name="description" content="A react playground" /&lt;</code></pre>
-            <pre class="code-block"><code>&gt;link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" /&lt;</code></pre>
-            <pre class="code-block"><code>&gt;title&lt;React playground&gt;/title&lt;</code></pre>
-            <pre class="code-block"><code>&gt;noscript&lt;You need to enable JavaScript to run this app.&gt;/noscript&lt;</code></pre>
+            <pre class="code-block"><code>&lt;link rel="icon" href="%PUBLIC_URL%/favicon.ico" /&gt;</code></pre>
+            <pre class="code-block"><code>&lt;meta name="description" content="A react playground" /&gt;</code></pre>
+            <pre class="code-block"><code>&lt;link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" /&gt;</code></pre>
+            <pre class="code-block"><code>&lt;title&gt;React playground&lt;/title&gt;</code></pre>
+            <pre class="code-block"><code>&lt;noscript&gt;You need to enable JavaScript to run this app.&lt;/noscript&gt;</code></pre>
 
             <h3>src/index.js</h3>
             <p>The JavaScript entry point where the app is initialized and rendered into the DOM.</p>
@@ -669,6 +669,54 @@ export default CreateUser;
 
             <h3>Validation</h3>
             <p>Add more client-side checks (e.g., min length, specific patterns).</p>
+
+        </article>
+
+        <article>
+
+            <h2>CSS - Layout, Header, Footer</h2>
+
+            <h3>src/components/Layout.js</h3>
+            <pre class="code-block"><code>import '../styles/Layout.css'</code></pre>
+
+            <h3>src/styles/Layout.css</h3>
+            <pre class="code-block"><code>#root {
+    display: grid;
+    justify-content: center;
+}
+header, main, footer {
+    width: 1200px;
+    max-width: 96vw;
+}</code></pre>
+
+            <h3>src/components/Header.js</h3>
+            <pre class="code-block"><code>import '../styles/Header.css';</code></pre>
+
+            <h3>src/styles/Header.css</h3>
+            <pre class="code-block"><code>header {
+    padding: var(--default-gap) 0;
+
+    display: grid;
+    grid-template-columns: max-content;
+    justify-content: end;
+    align-items: center;
+}
+header > nav {
+    display: flex;
+    gap: var(--default-gap);
+}</code></pre>
+
+            <h3>src/components/Footer.js</h3>
+            <pre class="code-block">import '../styles/Footer.css';<code></code></pre>
+
+            <h3>src/styles/Footer.css</h3>
+            <pre class="code-block"><code>footer {
+    padding: var(--default-gap) 0;
+
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}</code></pre>
 
         </article>
 
