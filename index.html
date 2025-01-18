@@ -108,7 +108,23 @@ Run `npm audit` for details.</code></pre>
             <h3>src/index.js</h3>
             <p>The JavaScript entry point where the app is initialized and rendered into the DOM.</p>
             <p>This is where the App component is rendered inside the <code>&lt;div id="root"&gt;</code> in index.html:</p>
-            <pre class="code-block"><code>ReactDOM.createRoot(document.getElementById('root')).render(&lt;App /&gt;);</code></pre>
+            <pre class="code-block"><code>import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+    &lt;React.StrictMode&gt;
+        &lt;App /&gt;
+    &lt;/React.StrictMode&gt;
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();</code></pre>
 
             <h3>src/App.js</h3>
             <p>The main component of your React app, typically serving as the root of your component tree. | Contains the default structure, such as a header or welcome message.</p>
@@ -674,6 +690,305 @@ export default CreateUser;
 
         <article>
 
+            <h2>DRY – Don't repeat yourself</h2>
+
+            <h3>src/hooks/useApi.js</h3>
+            <pre class="code-block"><code>// src/hooks/useApi.js
+
+import { useState, useCallback } from 'react';
+
+/**
+ * A universal hook for making HTTP requests to your backend, which always
+ * returns JSON in the structure:
+ *   {
+ *     "status": "success" | "error",
+ *     "message": "Some message",
+ *     "data": { ... } or [...]
+ *   }
+ *
+ * STATE EXPLANATION:
+ *   - data: The server's "data" field if "success"
+ *   - message: The server's "message" field
+ *   - error: Holds an error message if the request fails (HTTP error, or status="error")
+ *   - loading: True while the request is ongoing
+ *
+ * FUNCTION:
+ *   doRequest(options):
+ *     options = { url, method='GET', body=null, headers={} }
+ *
+ * RETURNS an object:
+ *   - { success: true, data } if the request is successful
+ *   - { success: false, error } if not
+ */
+export function useApi() {
+    const [data, setData] = useState(null);     // success payload
+    const [message, setMessage] = useState(null);  // success message
+    const [error, setError] = useState(null);   // error message (if any)
+    const [loading, setLoading] = useState(false);
+
+    /**
+     * doRequest is the function to call in your components.
+     * e.g. doRequest({ url: '/api/lehrbetriebe', method: 'GET' })
+     */
+    const doRequest = useCallback(
+        async ({ url, method = 'GET', body = null, headers = {} }) => {
+            setLoading(true);
+            setError(null);
+            setMessage(null);
+            setData(null);
+
+            try {
+                const response = await fetch(url, {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...headers,
+                    },
+                    body: body ? JSON.stringify(body) : null,
+                });
+
+                // If HTTP status not 2xx, parse what the server sent
+                if (!response.ok) {
+                    const errorJson = await response.json().catch(() => null);
+                    const errorMsg =
+                        (errorJson?.message) ||
+                        `HTTP error: ${response.status}`;
+
+                    setError(errorMsg);
+                    return { success: false, error: errorMsg };
+                }
+
+                // On success status, parse
+                const json = await response.json();
+                // Expected: { status, message, data }
+                const { status, message, data } = json;
+
+                // If "status" is "error" in JSON, treat it as an error
+                if (status === 'error') {
+                    const errorMsg = message || 'Server returned status: error';
+                    setError(errorMsg);
+                    return { success: false, error: errorMsg };
+                }
+
+                // Otherwise, "success"
+                setMessage(message);
+                setData(data);
+
+                return { success: true, data };
+            } catch (err) {
+                // Network or unexpected error
+                const errorMsg = err.message || 'Unknown network error';
+                setError(errorMsg);
+                return { success: false, error: errorMsg };
+            } finally {
+                setLoading(false);
+            }
+        },
+        []
+    );
+
+    return { data, message, error, loading, doRequest };
+}</code></pre>
+            <a href="https://www.w3schools.com/react/react_usecallback.asp" target="_blank" rel="noopener noreferrer">https://www.w3schools.com/react/react_usecallback.asp</a>
+
+            <h3>src/pages/lehrbetriebe/Lehrbetriebe.js</h3>
+            <pre class="code-block"><code>// src/pages/lehrbetriebe/Lehrbetriebe.js
+
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useApi } from '../../hooks/useApi';
+
+function Lehrbetriebe() {
+    const { data, message, error, loading, doRequest } = useApi();
+
+    useEffect(() => {
+        // Fetch all Lehrbetriebe once the component mounts
+        doRequest({ url: 'https://api.test/lehrbetriebe', method: 'GET' });
+    }, [doRequest]);
+
+    if (loading) return &lt;p&gt;Loading...&lt;/p&gt;;
+    if (error) return &lt;p style={{ color: 'red' }}&gt;{error}&lt;/p&gt;;
+
+    return (
+        &lt;div&gt;
+            &lt;h2&gt;Lehrbetriebe&lt;/h2&gt;
+            {message && &lt;p&gt;{message}&lt;/p&gt;}
+            {data?.length ? (
+                &lt;div&gt;
+                    {data.map(({ id_lehrbetrieb, firma }) =&gt; (
+                        &lt;p key={id_lehrbetrieb}&gt; &lt;Link to={`/lehrbetriebe/${id_lehrbetrieb}`}&gt;{firma}&lt;/Link&gt;&lt;/p&gt;
+                    ))}
+                &lt;/div&gt;
+            ) : (
+                &lt;p&gt;No Lehrbetriebe found.&lt;/p&gt;
+            )}
+        &lt;/div&gt;
+    );
+}
+
+export default Lehrbetriebe;</code></pre>
+
+            <h3>src/pages/lehrbetriebe/ReadLehrbetrieb.js</h3>
+            <pre class="code-block"><code>// src/pages/lehrbetriebe/ReadLehrbetrieb.js
+
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useApi } from '../../hooks/useApi';
+
+const ReadLehrbetrieb = () => {
+    const { id } = useParams();
+    const { data, message, error, loading, doRequest } = useApi();
+
+    // Fetch the Lehrbetrieb once the component mounts or the id changes
+    useEffect(() => {
+        doRequest({ url: `https://api.test/lehrbetriebe/${id}` });
+    }, [doRequest, id]);
+
+    if (loading) {
+        return &lt;div&gt;Loading...&lt;/div&gt;;
+    }
+
+    if (error) {
+        return &lt;div style={{ color: 'red' }}&gt;Error: {error}&lt;/div&gt;;
+    }
+
+    return (
+        &lt;div&gt;
+            &lt;h1&gt;Lehrbetrieb Details&lt;/h1&gt;
+            {/* Show any success message the server returned */}
+            {message && &lt;p&gt;{message}&lt;/p&gt;}
+
+            {/* Display the single Lehrbetrieb (assuming data is an object, not an array) */}
+            {data && (
+                &lt;div&gt;
+                    &lt;p&gt;ID: {data.id_lehrbetrieb}&lt;/p&gt;
+                    &lt;p&gt;Name: {data.firma}&lt;/p&gt;
+                &lt;/div&gt;
+            )}
+        &lt;/div&gt;
+    );
+};
+
+export default ReadLehrbetrieb;</code></pre>
+
+            <h3>src/pages/lehrbetriebe/CreateLehrbetrieb.js</h3>
+            <pre class="code-block"><code>// src/pages/lehrbetriebe/CreateLehrbetrieb.js
+
+import React, { useState } from 'react';
+import { useApi } from '../../hooks/useApi';
+
+function CreateLehrbetrieb() {
+    const { loading, error, message, doRequest } = useApi();
+
+    // Local states for each field in tbl_lehrbetrieb
+    const [firma, setFirma] = useState('');
+    const [strasse, setStrasse] = useState('');
+    const [plz, setPlz] = useState('');
+    const [ort, setOrt] = useState('');
+
+    // Handler for creating a new Lehrbetrieb
+    const handleCreate = async () => {
+        const result = await doRequest({
+            url: 'https://api.test/lehrbetriebe',
+            method: 'POST',
+            body: {
+                firma,
+                strasse,
+                plz,
+                ort,
+            },
+        });
+
+        if (result.success) {
+            // Optionally clear fields after success
+            setFirma('');
+            setStrasse('');
+            setPlz('');
+            setOrt('');
+            console.log('Created Lehrbetrieb:', result.data);
+        } else {
+            console.error('Create failed:', result.error);
+        }
+    };
+
+    return (
+        &lt;div&gt;
+            &lt;h2&gt;Create New Lehrbetrieb&lt;/h2&gt;
+
+            {/* Display a loading message if the request is ongoing */}
+            {loading && &lt;p&gt;Creating Lehrbetrieb...&lt;/p&gt;}
+
+            {/* Display an error if one occurs */}
+            {error && &lt;p style={{ color: 'red' }}&gt;Error: {error}&lt;/p&gt;}
+
+            {/* Display success message from server if any */}
+            {message && &lt;p style={{ color: 'green' }}&gt;{message}&lt;/p&gt;}
+
+            {/* Firma */}
+            &lt;div style={{ marginBottom: '10px' }}&gt;
+                &lt;label htmlFor="firma" style={{ display: 'block' }}&gt;
+                    Firma
+                &lt;/label&gt;
+                &lt;input
+                    type="text"
+                    id="firma"
+                    value={firma}
+                    onChange={(e) =&gt; setFirma(e.target.value)}
+                /&gt;
+            &lt;/div&gt;
+
+            {/* Strasse */}
+            &lt;div style={{ marginBottom: '10px' }}&gt;
+                &lt;label htmlFor="strasse" style={{ display: 'block' }}&gt;
+                    Strasse
+                &lt;/label&gt;
+                &lt;input
+                    type="text"
+                    id="strasse"
+                    value={strasse}
+                    onChange={(e) =&gt; setStrasse(e.target.value)}
+                /&gt;
+            &lt;/div&gt;
+
+            {/* PLZ */}
+            &lt;div style={{ marginBottom: '10px' }}&gt;
+                &lt;label htmlFor="plz" style={{ display: 'block' }}&gt;
+                    PLZ
+                &lt;/label&gt;
+                &lt;input
+                    type="text"
+                    id="plz"
+                    value={plz}
+                    onChange={(e) =&gt; setPlz(e.target.value)}
+                /&gt;
+            &lt;/div&gt;
+
+            {/* Ort */}
+            &lt;div style={{ marginBottom: '10px' }}&gt;
+                &lt;label htmlFor="ort" style={{ display: 'block' }}&gt;
+                    Ort
+                &lt;/label&gt;
+                &lt;input
+                    type="text"
+                    id="ort"
+                    value={ort}
+                    onChange={(e) =&gt; setOrt(e.target.value)}
+                /&gt;
+            &lt;/div&gt;
+
+            &lt;button onClick={handleCreate} disabled={loading}&gt;
+                {loading ? 'Creating...' : 'Create'}
+            &lt;/button&gt;
+        &lt;/div&gt;
+    );
+}
+
+export default CreateLehrbetrieb;</code></pre>
+
+        </article>
+
+        <article>
+
             <h2>CSS - Layout, Header, Footer</h2>
 
             <h3>src/components/Layout.js</h3>
@@ -717,6 +1032,26 @@ header > nav {
     align-items: center;
     justify-content: center;
 }</code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
+
+        </article>
+
+        <article>
+
+            <h2></h2>
+
+            <h3></h3>
+            <p></p>
+            <pre class="code-block"><code></code></pre>
 
         </article>
 
