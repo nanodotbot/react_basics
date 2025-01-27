@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-&lt;head&gt;
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>React Basics</title>
 
-    <link rel="icon" type="image/png" href="./imgs/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="./imgs/favicon.ico">
     <link rel="stylesheet" href="./main.css">
     <link rel="stylesheet" href="./index.css">
     <link rel="stylesheet" href="./_header.css">
@@ -47,7 +47,9 @@
             <pre class="code-block"><code>node -v</code></pre>
 
             <h3>Create React app</h3>
-            <pre class="code-block"><code>npx create-react-app .</code></pre>
+            <h4>Vite (recommended)</h4>
+            <pre class="code-block"><code>npm create vite@latest .</code></pre>
+            <p>React | JavaScript</p>
 
             <h3>Install dependencies</h3>
             <p>located in package.json</p>
@@ -86,47 +88,40 @@ Run `npm audit` for details.</code></pre>
             <pre class="code-block"><code>npm install react-router-dom</code></pre>
 
             <h3>Run app</h3>
-            <pre class="code-block"><code>npm start</code></pre>
-
+            <h4>Vite</h4>
+            <pre class="code-block"><code>npm run dev</code></pre>
+            
         </article>
 
         <article>
 
             <h2>Basic structure and entry points</h2>
 
-            <h3>public/index.html</h3>
+            <h3>./index.html</h3>
             <p>This is the container where the entire React app is rendered. React uses this as the mounting point. | Any static meta tags, links, or other global configurations can be added here (e.g., favicon, viewport meta tag, etc.).</p>
             <pre class="code-block"><code>&lt;div id="root"&gt;&lt;/div&gt;</code></pre>
 
             <h4>...</h4>
-            <pre class="code-block"><code>&lt;link rel="icon" href="%PUBLIC_URL%/favicon.ico" /&gt;</code></pre>
-            <pre class="code-block"><code>&lt;meta name="description" content="A react playground" /&gt;</code></pre>
-            <pre class="code-block"><code>&lt;link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" /&gt;</code></pre>
-            <pre class="code-block"><code>&lt;title&gt;React playground&lt;/title&gt;</code></pre>
-            <pre class="code-block"><code>&lt;noscript&gt;You need to enable JavaScript to run this app.&lt;/noscript&gt;</code></pre>
+            <pre class="code-block"><code>&lt;link rel="icon" type="image/ico" href="/favicon.ico" /&gt;</code></pre>
+            <pre class="code-block"><code>&lt;meta name="description" content="Eine App zur Kursverwaltung" /&gt;</code></pre>
+            <pre class="code-block"><code>&lt;title&gt;Kursverwaltung&lt;/title&gt;</code></pre>
+            <pre class="code-block"><code>&lt;noscript&gt;Sie müssen JavaScript aktivieren, um diese App auszuführen.&lt;/noscript&gt;</code></pre>
 
-            <h3>src/index.js</h3>
+            <h3>src/main.jsx</h3>
             <p>The JavaScript entry point where the app is initialized and rendered into the DOM.</p>
             <p>This is where the App component is rendered inside the <code>&lt;div id="root"&gt;</code> in index.html:</p>
-            <pre class="code-block"><code>import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+            <pre class="code-block"><code>import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-    &lt;React.StrictMode&gt;
+createRoot(document.getElementById('root')).render(
+    &lt;StrictMode&gt;
         &lt;App /&gt;
-    &lt;/React.StrictMode&gt;
-);
+    &lt;/StrictMode&gt;,
+)</code></pre>
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();</code></pre>
-
-            <h3>src/App.js</h3>
+            <h3>src/App.jsx</h3>
             <p>The main component of your React app, typically serving as the root of your component tree. | Contains the default structure, such as a header or welcome message.</p>
             <p>Routing setup and route definitions.</p>
             <pre class="code-block"><code>import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -151,10 +146,9 @@ function App() {
 
 export default App;</code></pre>
 
-            <h4>src/components/Layout.js</h4>
+            <h4>src/components/Layout.jsx</h4>
             <p>Common layout structure and the Outlet for page content.</p>
-            <pre class="code-block"><code>import React from 'react'
-import { Outlet } from 'react-router-dom'
+            <pre class="code-block"><code>import { Outlet } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
 
@@ -173,15 +167,14 @@ export const Layout = () => {
             <h5>&lt;Outlet /&gt;</h5>
             <p>&lt;Outlet /&gt; is a placeholder component in your layout route. When a route matches a nested path, React Router will insert the child route’s component into the place where &lt;Outlet /&gt; is used.</p>
 
-            <h6>src/App.js</h6>
+            <h6>src/App.jsx</h6>
             <pre class="code-block"><code>&lt;Route path="/" element={&lt;Layout /&gt;}&gt;
     &lt;Route index element={&lt;Home /&gt;} /&gt;
     &lt;Route path="about" element={&lt;About /&gt;} /&gt;
 &lt;/Route&gt;</code></pre>
 
-            <h6>src/components/Layout.js</h6>
-            <pre class="code-block"><code>import React from 'react'
-import { Outlet } from 'react-router-dom'
+            <h6>src/components/Layout.jsx</h6>
+            <pre class="code-block"><code>import { Outlet } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
 
@@ -199,11 +192,9 @@ const Layout = () => {
 
 export default Layout</code></pre>
 
-            <h4>src/pages/Home.js</h4>
+            <h4>src/pages/Home.jsx</h4>
             <p>Content specific to that page.</p>
-            <pre class="code-block"><code>import React from 'react'
-
-const Home = () => {
+            <pre class="code-block"><code>const Home = () => {
     return (
         &lt;&gt;Home&lt;/&gt;
     )
@@ -211,11 +202,9 @@ const Home = () => {
 
 export default Home</code></pre>
 
-            <h4>src/pages/About.js</h4>
+            <h4>src/pages/About.jsx</h4>
             <p>Content specific to that page.</p>
-            <pre class="code-block"><code>import React from 'react'
-
-export const About = () => {
+            <pre class="code-block"><code>export const About = () => {
     return (
         &lt;&gt;About&lt;/&gt;
     )
@@ -283,84 +272,78 @@ export default About</code></pre>
             <p>The most common approach is to store components inside a src/components/ directory. You can create subfolders for specific types of components, but for now, simple components like Header and Footer can be placed directly under the components folder.</p>
             <pre class="code-block"><code>src/
     components/
-        Layout.js
-        Header.js
-        Footer.js
+        Layout.jsx
+        Header.jsx
+        Footer.jsx
     pages/
-        Home.js
-        About.js
+        Home.jsx
+        About.jsx
     styles/
+        Layout.css
         Header.css
         Footer.css</code></pre>
 
             <h3>Component File Naming</h3>
             <p>Use PascalCase (capitalizing the first letter of each word) for component file names to follow convention.</p>
 
-        </article>
+            <h3>src/components/Header.jsx</h3>
+            <pre class="code-block"><code>import { Link } from 'react-router-dom'
+import '../styles/Header.css';
 
-        <article>
-
-            <h2>ES7+ React/Redux/React-Native/JS Snippets</h2>
-            <p>VS Code Extension</p>
-
-            <h3>rafc</h3>
-            <p>Generates a arrow function component skeleton</p>
-            <pre class="code-block"><code>import React from 'react'
-
-export const ComponentName = () => {
-    return &lt;div&gt;ComponentName&lt;/div&gt;
-}</code></pre>
-
-            <h3>rafce</h3>
-            <p></p>
-            <pre class="code-block"><code>import React from 'react'
-
-const ComponentName = () => {
+const Header = () => {
     return (
-        &lt;div&gt;ComponentName&lt;/div&gt;
+        &lt;header&gt;
+            &lt;nav&gt;
+                &lt;Link to="/"&gt;Home&lt;/Link&gt;
+                &lt;Link to="/"&gt;Über diese App&lt;/Link&gt;
+            &lt;/nav&gt;
+        &lt;/header&gt;
     )
 }
 
-export default ComponentName</code></pre>
+export default Header</code></pre>
 
-            <h3>rfce</h3>
-            <p>Generates a functional component with an export statement.</p>
-            <pre class="code-block"><code>import React from 'react'
+            <h3>src/components/Footer.jsx</h3>
+            <pre class="code-block"><code>import '../styles/Footer.css'
 
-function ComponentName() {
-    return &lt;div&gt;ComponentName&lt;/div&gt;
+const Footer = () => {
+    return (
+        &lt;footer&gt;&lt;p&lt;&copy;2025&lt;/p&lt;&lt;/footer&gt;
+    )
 }
 
-export default ComponentName</code></pre>
+export default Footer</code></pre>
 
-            <h3>rcc</h3>
-            <p>Generates a class component skeleton.</p>
-            <pre class="code-block"><code>import React, { Component } from 'react'
+            <h3>src/styles/Header.css</h3>
+            <pre class="code-block"><code>header {
+    padding: var(--default-gap) 0;
 
-export default class ComponentName extends Component {
-    render() {
-        return &lt;div&gt;ComponentName&lt;/div&gt;
-    }
+    display: grid;
+    grid-template-columns: max-content;
+    justify-content: end;
+    align-items: center;
+}
+header > nav {
+    display: flex;
+    gap: var(--default-gap);
+}
+header > nav > a {
+    font-size: var(--font-size-big);
+
+    color: var(--text);
+}
+header > nav > a:hover {
+    color: var(--text);
 }</code></pre>
 
-            <h3>useState</h3>
-            <h3>useStateSnippet</h3>
-            <p>Quickly create a state hook.</p>
-            <pre class="code-block"><code>const [state, setState] = useState(initialState)</code></pre>
+            <h3>src/styles/Footer.css</h3>
+            <pre class="code-block"><code>footer {
+    padding: var(--default-gap) 0;
 
-            <h3>useEffect</h3>
-            <h3>useEffectSnippet</h3>
-            <p>Quickly create an effect hook.</p>
-            <pre class="code-block"><code>useEffect(() => {
-    // Effect logic here
-    return () => {
-        // Cleanup logic here
-    }
-}, [dependencies])</code></pre>
-
-            <h3>Header</h3>
-            <p>Imports /components/Header.js</p>
-            <pre class="code-block"><code>import { Header } from './components/Header'</code></pre>
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}</code></pre>
 
         </article>
 
@@ -368,21 +351,19 @@ export default class ComponentName extends Component {
 
             <h2>404</h2>
 
-            <h3>src/pages/NotFound.js</h3>
-            <pre class="code-block"><code>import React from 'react';
-
-const NotFound = () => {
+            <h3>src/pages/NotFound.jsx</h3>
+            <pre class="code-block"><code>const NotFound = () => {
     return (
         &lt;div&gt;
-            &lt;h2&gt;404 - Page Not Found&lt;/h2&gt;
-            &lt;p&gt;The page you are looking for doesn't exist.&lt;/p&gt;
+            &lt;h2&gt;404 - Seite nicht gefunden&lt;/h2&gt;
+            &lt;p&gt;Die Seite konnte nicht gefunden werden. Wahrscheinlich wurde sie fein säuberlich in Nullen und Einsen zerlegt und entsorgt. Es ist unwahrscheinlich, dass sie je wieder auftaucht.&lt;/p&gt;
         &lt;/div&gt;
     );
 };
 
 export default NotFound;</code></pre>
 
-            <h3>src/App.js</h3>
+            <h3>src/App.jsx</h3>
             <p>React Router tries to match the user’s URL against the defined paths (e.g., /, /about). | If no route matches, it falls back to the path="*" route, rendering the NotFound component.</p>
             <pre class="code-block"><code>import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
@@ -409,6 +390,621 @@ function App() {
 
 export default App;</code></pre>
             <p>You can decide where to place the 404 route. If you put it inside the &lt;Layout&gt; route, the 404 page will still render with your layout (e.g., header and footer). If you want a standalone 404 page without the layout, you could define a path="*" route outside of the &lt;Layout&gt; route. | Make sure this catch-all route is at the end of your &lt;Routes&gt; block (although in v6, the order doesn’t matter as much, because the matching logic is different than older versions). | If you have nested routes, you can add an additional path="*" route at each level if needed.</p>
+
+        </article>
+
+        <article>
+
+            <h2>DRY – Don't repeat yourself | Fetch</h2>
+
+            <h3>src/hooks/useApi.js</h3>
+            <pre class="code-block"><code>// src/hooks/useApi.js
+
+import { useState, useCallback } from 'react';
+
+/**
+ * A universal hook for making HTTP requests to your backend, which always
+ * returns JSON in the structure:
+ *   {
+ *     "status": "success" | "error",
+ *     "message": "Some message",
+ *     "data": { ... } or [...]
+ *   }
+ *
+ * STATE EXPLANATION:
+ *   - data: The server's "data" field if "success"
+ *   - message: The server's "message" field
+ *   - error: Holds an error message if the request fails (HTTP error, or status="error")
+ *   - loading: True while the request is ongoing
+ *
+ * FUNCTION:
+ *   doRequest(options):
+ *     options = { url, method='GET', body=null, headers={} }
+ *
+ * RETURNS an object:
+ *   - { success: true, data } if the request is successful
+ *   - { success: false, error } if not
+ */
+export function useApi() {
+    const [data, setData] = useState(null);     // success payload
+    const [message, setMessage] = useState(null);  // success message
+    const [error, setError] = useState(null);   // error message (if any)
+    const [loading, setLoading] = useState(false);
+
+    /**
+     * doRequest is the function to call in your components.
+     * e.g. doRequest({ url: '/api/lehrbetriebe', method: 'GET' })
+     */
+    const doRequest = useCallback(
+        async ({ url, method = 'GET', body = null, headers = {} }) =&gt; {
+            setLoading(true);
+            setError(null);
+            setMessage(null);
+            setData(null);
+
+            try {
+                const response = await fetch(url, {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...headers,
+                    },
+                    body: body ? JSON.stringify(body) : null,
+                });
+
+                // If HTTP status not 2xx, parse what the server sent
+                if (!response.ok) {
+                    const errorJson = await response.json().catch(() => null);
+                    const errorMsg =
+                        (errorJson?.message) ||
+                        `${response.status} | Unerwarteter Fehler beim Laden der Daten.`;
+
+                    console.log('doRequest error:', errorMsg);
+                    console.log('doRequest errorJson:', errorJson);
+                    
+                    setError(errorJson?.data || {});
+                    return { success: false, error: errorMsg };
+                }
+
+                // On success status, parse
+                const json = await response.json();
+                // Expected: { status, message, data }
+                const { status, message, data } = json;
+
+                // If "status" is "error" in JSON, treat it as an error
+                if (status === 'error') {
+                    const errorMsg = message || 'Der Server hat einen Fehler gemeldet.';
+                    console.log('doRequest error:', errorMsg);
+                    setError(data || {});
+                    return { success: false, error: errorMsg };
+                }
+
+                // Otherwise, "success"
+                setMessage(message);
+                setData(data);
+
+                return { success: true, data };
+            } catch (err) {
+                // Network or unexpected error
+                const errorMsg = err.message || 'Unknown network error';
+                console.log('doRequest error:', errorMsg);                
+                setError({});
+                return { success: false, error: errorMsg };
+            } finally {
+                setLoading(false);
+            }
+        },
+        []
+    );
+
+    return { data, message, error, loading, doRequest };
+}</code></pre>
+            <a href="https://www.w3schools.com/react/react_usecallback.asp" target="_blank" rel="noopener noreferrer">https://www.w3schools.com/react/react_usecallback.asp</a>
+
+        </article>
+
+        <article>
+
+            <h2>CRUD | Lehrbetriebe</h2>
+
+            <h3>src/App.jsx</h3>
+            <pre class="code-block"><code>{/* ... */}
+
+import Lehrbetriebe from './pages/Lehrbetriebe/Lehrbetriebe';
+import Lehrbetrieb from './pages/Lehrbetriebe/Lehrbetrieb';
+import LehrbetriebErstellen from './pages/Lehrbetriebe/LehrbetriebErstellen';
+import LehrbetriebAnpassen from './pages/Lehrbetriebe/LehrbetriebAnpassen';
+
+{/* ... */}
+
+&lt;Route path="lehrbetriebe" element={&lt;Lehrbetriebe /&gt;} /&gt;
+&lt;Route path="lehrbetriebe/:id" element={&lt;Lehrbetrieb /&gt;} /&gt;
+&lt;Route path="lehrbetrieb-erstellen" element={&lt;LehrbetriebErstellen /&gt;} /&gt;
+&lt;Route path="lehrbetrieb-anpassen/:id" element={&lt;LehrbetriebAnpassen /&gt;} /&gt;
+
+{/* ... */}</code></pre>
+            
+            <h3>src/components/Header.jsx</h3>
+            <pre class="code-block"><code>{/* ... */}
+
+&lt;nav&gt;
+    &lt;Link to="/lehrbetriebe"&gt;Lehrbetriebe&lt;/Link&gt;
+&lt;/nav&gt;
+
+{/* ... */}</code></pre>
+
+            <h3>src/pages/ lehrbetriebe/Lehrbetriebe.jsx</h3>
+            <pre class="code-block"><code>// src/pages/lehrbetriebe/Lehrbetriebe.js
+
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useApi } from '../../hooks/useApi';
+import '../../styles/Lehrbetriebe.css';
+
+function Lehrbetriebe() {
+    const { data, error, loading, doRequest } = useApi();
+
+    useEffect(() =&gt; {
+        // Fetch all Lehrbetriebe once the component mounts
+        doRequest({ url: 'https://api.test/lehrbetriebe', method: 'GET' });
+    }, [doRequest]);
+
+    const handleDelete = async (id) =&gt; {
+        await doRequest({ url: `https://api.test/lehrbetriebe/${id}`, method: 'DELETE' });
+        // Re-fetch the data after deletion
+        doRequest({ url: 'https://api.test/lehrbetriebe', method: 'GET' });
+    };
+
+    return (
+        &lt;&gt;
+            &lt;h1&gt;Lehrbetriebe&lt;/h1&gt;
+
+            &lt;Link to={`/lehrbetrieb-erstellen`}&gt;Neuen Lehrbetrieb hinzufügen&lt;/Link&gt;
+
+            {error && Object.keys(error).length &gt; 0 && (
+                &lt;div&gt;
+                    {Object.entries(error).map(([field, errMsg], index) =&gt; (
+                        &lt;p key={index}&gt;{`${field}: ${errMsg}`}&lt;/p&gt;
+                    ))}
+                &lt;/div&gt;
+            )}
+
+            {loading &&
+                &lt;div className="spinner"&gt;
+                    &lt;div&gt;&lt;/div&gt;
+                &lt;/div&gt;
+            }
+            {!loading && !error && data?.length &&
+                (
+                    &lt;&gt;
+                        {data.map(({ id_lehrbetrieb, firma, strasse, plz, ort }) =&gt; (
+                            &lt;div key={id_lehrbetrieb}&gt;
+                                &lt;h2&gt;&lt;Link to={`/lehrbetriebe/${id_lehrbetrieb}`}&gt;{firma}&lt;/Link&gt;&lt;/h2&gt;
+                                &lt;p className='street'&gt;{strasse || 'Keine Strasse vorhanden'}&lt;/p&gt;
+                                &lt;div className='address'&gt;
+                                    &lt;span&gt;{plz || 'Keine PLZ vorhanden'}&lt;/span&gt;
+                                    &lt;span&gt;&nbsp;&lt;/span&gt;
+                                    &lt;span&gt;{ort || 'Kein Ort vorhanden'}&lt;/span&gt;
+                                &lt;/div&gt;
+                                &lt;div className='actions'&gt;
+                                    &lt;Link to={`/lehrbetrieb-anpassen/${id_lehrbetrieb}`}&gt;Bearbeiten&lt;/Link&gt;
+                                    &lt;p&gt;|&lt;/p&gt;
+                                    &lt;button className='link' onClick={() =&gt; handleDelete(id_lehrbetrieb)}&gt;&lt;span&gt;Löschen&lt;/span&gt;&lt;/button&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        ))}
+                    &lt;/&gt;
+                )
+            }
+            {!loading && !error && !data?.length &&
+                (
+                    &lt;p&gt;Es gibt noch keine Lehrbetriebe.&lt;/p&gt;
+                )
+            }
+        &lt;/&gt;
+    );
+}
+
+export default Lehrbetriebe;</code></pre>
+
+            <h3>src/styles/Lehrbetriebe.css</h3>
+            <pre class="code-block"><code>p.street, div.address > span, a, button.link > span {
+    font-size: var(--font-size-small);
+}
+div.actions {
+    display: grid;
+    grid-template-columns: repeat(3, max-content);
+    align-items: center;
+    gap: calc(.5 * var(--default-gap));
+}</code></pre>
+
+            <h3>src/pages/ lehrbetriebe/Lehrbetrieb.js</h3>
+            <pre class="code-block"><code>// src/pages/lehrbetriebe/ReadLehrbetrieb.js
+
+import { useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useApi } from '../../hooks/useApi';
+import '../../styles/Lehrbetriebe.css';
+
+const Lehrbetrieb = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const { data, error, loading, doRequest } = useApi();
+
+    // Fetch the Lehrbetrieb once the component mounts or the id changes
+    useEffect(() => {
+        doRequest({ url: `https://api.test/lehrbetriebe/${id}` });
+    }, [doRequest, id]);
+
+    const handleDelete = async (id) => {
+        await doRequest({ url: `https://api.test/lehrbetriebe/${id}`, method: 'DELETE' });
+        // Redirect to /Lehrbetriebe after deletion
+        navigate('/lehrbetriebe');
+    };
+
+    return (
+        &lt;&gt;
+            &lt;h1&gt;Lehrbetrieb | Detailansicht&lt;/h1&gt;
+
+            {error && Object.keys(error).length &gt; 0 && (
+                &lt;div&gt;
+                    {Object.entries(error).map(([field, errMsg], index) =&gt; (
+                        &lt;p key={index}&gt;{`${field}: ${errMsg}`}&lt;/p&gt;
+                    ))}
+                &lt;/div&gt;
+            )}
+
+            {loading &&
+                &lt;div className="spinner"&gt;
+                    &lt;div&gt;&lt;/div&gt;
+                &lt;/div&gt;
+            }
+            {!loading && !error && data && (
+                &lt;div key={data.id_lehrbetrieb}&gt;
+                    &lt;h2&gt;{data.firma}&lt;/h2&gt;
+                    &lt;p className='street'&gt;{data.strasse || 'Keine Strasse vorhanden'}&lt;/p&gt;
+                    &lt;div className='address'&gt;
+                        &lt;span&gt;{data.plz || 'Keine PLZ vorhanden'}&lt;/span&gt;
+                        &lt;span&gt;&nbsp;&lt;/span&gt;
+                        &lt;span&gt;{data.ort || 'Kein Ort vorhanden'}&lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;div className='actions'&gt;
+                        &lt;Link to={`/lehrbetrieb-anpassen`}&gt;Bearbeiten&lt;/Link&gt;
+                        &lt;p&gt;|&lt;/p&gt;
+                        &lt;button className='link' onClick={() =&gt; handleDelete(data.id_lehrbetrieb)}&gt;&lt;span&gt;Löschen&lt;/span&gt;&lt;/button&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            )}
+        &lt;/&gt;
+    );
+};
+
+export default Lehrbetrieb;</code></pre>
+
+            <h3>src/pages/ lehrbetriebe/LehrbetriebErstellen.jsx</h3>
+            <pre class="code-block"><code>// src/pages/lehrbetriebe/LehrbetriebErstellen.jsx
+import { useState } from 'react';
+import { useApi } from '../../hooks/useApi';
+import LabelInput from '../../components/LabelInput';
+
+function LehrbetriebErstellen() {
+    const { loading, error, message, doRequest } = useApi();
+
+    // Local states for each field in tbl_lehrbetrieb
+    const [firma, setFirma] = useState('');
+    const [strasse, setStrasse] = useState('');
+    const [plz, setPlz] = useState('');
+    const [ort, setOrt] = useState('');
+
+    // Handler for creating a new Lehrbetrieb
+    const handleCreate = async () => {
+        const result = await doRequest({
+            url: 'https://api.test/lehrbetriebe',
+            method: 'POST',
+            body: {
+                firma,
+                strasse,
+                plz,
+                ort,
+            },
+        });
+
+        if (result.success) {
+            // Optionally clear fields after success
+            setFirma('');
+            setStrasse('');
+            setPlz('');
+            setOrt('');
+            console.log('Created Lehrbetrieb:', result.data);
+        } else {
+            console.error('Create failed:', result.error);
+        }
+    };
+
+    return (
+        &lt;div&gt;
+            &lt;h1&gt;Lehrbetrieb erstellen&lt;/h1&gt;
+
+            {loading &&
+                &lt;div className="spinner"&gt;
+                    &lt;div&gt;&lt;/div&gt;
+                &lt;/div&gt;
+            }
+            {message && &lt;p&gt;{message}&lt;/p&gt;}
+            {error && Object.keys(error).length &gt; 0 && (
+                &lt;div&gt;
+                    {Object.entries(error).map(([field, errMsg], index) =&gt; (
+                        &lt;p className='error' key={index}&gt;{`${errMsg}`}&lt;/p&gt;
+                    ))}
+                &lt;/div&gt;
+            )}
+
+            &lt;LabelInput
+                label="Firma"
+                id="firma"
+                type="text"
+                value={firma}
+                onChange={(e) =&gt; setFirma(e.target.value)}
+            /&gt;
+            {/* {error?.firma && &lt;p className="error"&gt;{error.firma}&lt;/p&gt;} */}
+
+            &lt;LabelInput
+                label="Strasse"
+                id="strasse"
+                type="text"
+                value={strasse}
+                onChange={(e) =&gt; setStrasse(e.target.value)}
+            /&gt;
+            {error?.strasse && &lt;p className="error"&gt;{error.strasse}&lt;/p&gt;}
+
+            &lt;LabelInput
+                label="PLZ"
+                id="plz"
+                type="text"
+                value={plz}
+                onChange={(e) =&gt; setPlz(e.target.value)}
+            /&gt;
+            {error?.plz && &lt;p className="error"&gt;{error.plz}&lt;/p&gt;}
+
+            &lt;LabelInput
+                label="Ort"
+                id="ort"
+                type="text"
+                value={ort}
+                onChange={(e) =&gt; setOrt(e.target.value)}
+            /&gt;
+            {error?.ort && &lt;p className="error"&gt;{error.ort}&lt;/p&gt;}
+
+            &lt;button onClick={handleCreate} disabled={loading}&gt;
+                {loading ? 'Creating...' : 'Create'}
+            &lt;/button&gt;
+        &lt;/div&gt;
+    );
+}
+
+export default LehrbetriebErstellen;
+</code></pre>
+
+            <h3></h3>
+            <pre class="code-block"><code>// src/pages/lehrbetriebe/LehrbetriebAnpassen.jsx
+
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useApi } from '../../hooks/useApi';
+import LabelInput from '../../components/LabelInput';
+import '../../styles/Lehrbetriebe.css';
+
+function LehrbetriebAnpassen() {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const { data, error, loading, message, doRequest } = useApi();
+
+    // Local state mirrors the tbl_lehrbetrieb columns
+    const [firma, setFirma] = useState('');
+    const [strasse, setStrasse] = useState('');
+    const [plz, setPlz] = useState('');
+    const [ort, setOrt] = useState('');
+
+    // 1) Fetch existing data so we can fill the form fields
+    useEffect(() =&gt; {
+        // We fetch once upon mount (or when `id` changes)
+        doRequest({ url: `https://api.test/lehrbetriebe/${id}` });
+    }, [doRequest, id]);
+
+    // 2) Whenever `data` updates, sync local state (if data is loaded successfully)
+    useEffect(() =&gt; {
+        if (data) {
+            setFirma(data.firma || '');
+            setStrasse(data.strasse || '');
+            setPlz(data.plz || '');
+            setOrt(data.ort || '');
+        }
+    }, [data]);
+
+    // 3) Handle the PUT request to update the Lehrbetrieb
+    const handleUpdate = async () =&gt; {
+        const result = await doRequest({
+            url: `https://api.test/lehrbetriebe/${id}`,
+            method: 'PUT',
+            body: { firma, strasse, plz, ort },
+        });
+
+        if (result.success) {
+            console.log('Lehrbetrieb updated:', result.data);
+            // Optionally redirect back to the Lehrbetrieb detail page
+            navigate(`/lehrbetriebe/${id}`);
+        } else {
+            console.error('Update failed:', result.error);
+        }
+    };
+
+    return (
+        &lt;div&gt;
+            &lt;h1&gt;Lehrbetrieb anpassen&lt;/h1&gt;
+
+            {/* Loading indicator */}
+            {loading && (
+                &lt;div className="spinner"&gt;
+                    &lt;div&gt;&lt;/div&gt;
+                &lt;/div&gt;
+            )}
+
+            {error && Object.keys(error).length &gt; 0 && (
+                &lt;div&gt;
+                    {Object.entries(error).map(([field, errMsg], index) =&gt; (
+                        &lt;p className="error" key={index}&gt;{`${errMsg}`}&lt;/p&gt;
+                    ))}
+                &lt;/div&gt;
+            )}
+
+            {/* Form Fields */}
+            &lt;LabelInput
+                label="Firma"
+                id="firma"
+                value={firma}
+                onChange={(e) =&gt; setFirma(e.target.value)}
+            /&gt;
+
+            &lt;LabelInput
+                label="Strasse"
+                id="strasse"
+                value={strasse}
+                onChange={(e) =&gt; setStrasse(e.target.value)}
+            /&gt;
+
+            &lt;LabelInput
+                label="PLZ"
+                id="plz"
+                value={plz}
+                onChange={(e) =&gt; setPlz(e.target.value)}
+            /&gt;
+
+            &lt;LabelInput
+                label="Ort"
+                id="ort"
+                value={ort}
+                onChange={(e) =&gt; setOrt(e.target.value)}
+            /&gt;
+
+            {/* Update button */}
+            &lt;button onClick={handleUpdate} disabled={loading}&gt;
+                {loading ? 'Updating...' : 'Update'}
+            &lt;/button&gt;
+        &lt;/div&gt;
+    );
+}
+
+export default LehrbetriebAnpassen;</code></pre>
+
+
+            <h3>src/components/LabelInput.jsx</h3>
+            <pre class="code-block"><code>const LabelInput = ({
+    label,
+    type = 'text',
+    value,
+    onChange,
+    required = false,
+    id,
+}) => {
+    return (
+        &lt;div&gt;
+            &lt;label htmlFor={id}&gt;{label}&lt;/label&gt;
+            &lt;input
+                id={id}
+                name={id}
+                type={type}
+                value={value}
+                onChange={onChange}
+                required={required}
+            /&gt;
+        &lt;/div&gt;
+    );
+};
+
+export default LabelInput;</code></pre>
+
+        </article>
+
+        <article>
+
+            <h2>Styling</h2>
+
+            <h3>Background video</h3>
+            <p><a href="https://www.pexels.com/de-de/suche/videos/background%20animation%20white/" target="_blank" rel="noopener noreferrer">https://www.pexels.com/de-de/suche/videos/background%20animation%20white/</a></p>
+            <h4>src/components/Layout.jsx</h4>
+            <pre class="code-block"><code>import backgroundVideo from '../assets/9694230-hd_1920_1080_25fps.mp4' // Import the video file
+
+    {/* ... */}
+
+    &lt;video src={backgroundVideo} autoPlay loop muted&gt;&lt;/video&gt;
+
+    {/* ... */}</code></pre>
+
+            <h4>src/styles/Layout.css</h4>
+            <pre class="code-block"><code>header, main, footer {
+    z-index: 1;
+
+    /* ... */
+}
+
+video {
+    z-index: 0;
+
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    object-fit: cover;
+    min-height: 100vh;
+    min-width: 100vw;
+
+    opacity: 0.4;
+}</code></pre>
+
+            <h3>Logo</h3>
+            <h4>src/components/Header.jsx</h4>
+            <pre class="code-block"><code>{/* ... */}
+
+    &lt;header&gt;
+        &lt;Link to="/"&gt;&lt;img src={logo} alt="App logo: a red blurry circle" /&gt;&lt;/Link&gt;
+
+        &lt;nav&gt;
+            &lt;Link to="/about"&gt;Über diese App&lt;/Link&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+{/* ... */}</code></pre>
+
+            <h4>src/styles/Header.css</h4>
+            <pre class="code-block"><code>header {
+    /* ... */
+
+    grid-template-columns: max-content 1fr;
+
+    /* ... */
+}
+header &gt; a &gt; img {
+    width: 50px;
+    height: 50px;
+}
+header &gt; nav {
+    /* ... */
+
+    justify-content: end;
+    align-items: center;
+}
+/* ... */</code></pre>
+
+            <h3></h3>
+            <pre class="code-block"><code></code></pre>
+
+            <h3></h3>
+            <pre class="code-block"><code></code></pre>
+
+            <h3></h3>
+            <pre class="code-block"><code></code></pre>
 
         </article>
 
@@ -475,563 +1071,67 @@ export default About;</code></pre>
 
         <article>
 
-            <h2>Fetch</h2>
+            <h2>ES7+ React/Redux/React-Native/JS Snippets</h2>
+            <p>VS Code Extension</p>
 
-            <h3>Vanilla JS Approach (Using fetch)</h3>
-            <pre class="code-block"><code>// src/pages/UsersFetch.js
-import React from 'react';
+            <h3>rafc</h3>
+            <p>Generates a arrow function component skeleton</p>
+            <pre class="code-block"><code>import React from 'react'
 
-const UsersFetch = () => {
-    const [users, setUsers] = React.useState([]);
-    const [loading, setLoading] = React.useState(false);
-    const [error, setError] = React.useState(null);
-
-    React.useEffect(() => {
-        setLoading(true);
-        fetch('https://jsonplaceholder.typicode.com/users') // Replace with your API endpoint
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                setUsers(data);
-                setError(null);
-            })
-            .catch(err => {
-                setError(err.message);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    }, []);
-
-    if (loading) return &lt;p&gt;Loading users...&lt;/p&gt;;
-    if (error) return &lt;p style={{ color: 'red' }}&gt;Error: {error}&lt;/p&gt;;
-
-    return (
-        &lt;div&gt;
-            &lt;h2&gt;Users (Fetch)&lt;/h2&gt;
-            &lt;ul&gt;
-                {users.map(user =&gt; (
-                    &lt;li key={user.id}&gt;
-                        {user.name} – {user.email}
-                    &lt;/li&gt;
-                ))}
-            &lt;/ul&gt;
-        &lt;/div&gt;
-    );
-};
-
-export default UsersFetch;</code></pre>
-
-            <p><a href="https://www.w3schools.com/jsref/api_fetch.asp" target="_blank" rel="noopener noreferrer">https://www.w3schools.com/jsref/api_fetch.asp</a></p>
-
-            <h3>Axios Approach</h3>
-            <pre class="code-block"><code>npm install axios</code></pre>
-            <pre class="code-block"><code>// src/pages/UsersAxios.js
-import React from 'react';
-import axios from 'axios';
-
-const UsersAxios = () => {
-    const [users, setUsers] = React.useState([]);
-    const [loading, setLoading] = React.useState(false);
-    const [error, setError] = React.useState(null);
-
-    React.useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                setLoading(true);
-                const response = await axios.get('https://jsonplaceholder.typicode.com/users');
-                // Replace with your API endpoint
-                setUsers(response.data);
-                setError(null);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUsers();
-    }, []);
-
-    if (loading) return &lt;p&gt;Loading users...&lt;/p&gt;;
-    if (error) return &lt;p style={{ color: 'red' }}&gt;Error: {error}&lt;/p&gt;;
-
-    return (
-        &lt;div&gt;
-            &lt;h2&gt;Users (Axios)&lt;/h2&gt;
-            &lt;ul&gt;
-                {users.map(user =&gt; (
-                    &lt;li key={user.id}&gt;
-                        {user.name} – {user.email}
-                    &lt;/li&gt;
-                ))}
-            &lt;/ul&gt;
-        &lt;/div&gt;
-    );
-};
-
-export default UsersAxios;</code></pre>
-
-            <h4>Features of Axios</h4>
-            <p>Automatic JSON Transform: Axios automatically parses JSON responses, so you don’t have to manually call .json(). | Better Error Handling: Errors are consolidated, and you don’t have to manually check response.ok. | Interceptors & More: Axios provides powerful features like interceptors (for token refresh, custom headers, logging, etc.).</p>
-
-        </article>
-
-        <article>
-
-            <h2>Create</h2>
-
-            <pre class="code-block"><code>import React from 'react';
-
-const CreateUser = () => {
-    const [name, setName] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    const [loading, setLoading] = React.useState(false);
-    const [error, setError] = React.useState(null);
-    const [success, setSuccess] = React.useState(null);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        // Reset previous states
-        setError(null);
-        setSuccess(null);
-        setLoading(true);
-
-        // Perform the POST request (using a public test API endpoint, or your own)
-        fetch('https://jsonplaceholder.typicode.com/users', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                // The data to send
-                name,
-                email,
-            }),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    // If server returns an error status
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then((data) => {
-                // Clear form fields
-                setName('');
-                setEmail('');
-                setSuccess('User created successfully!');
-            })
-            .catch((err) => {
-                setError(err.message);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    };
-
-    return (
-        &lt;div style={{ padding: '20px' }}&gt;
-            &lt;h2&gt;Create a New User&lt;/h2&gt;
-
-            {/* Feedback Messages */}
-            {loading && &lt;p&gt;Creating user...&lt;/p&gt;}
-            {error && &lt;p style={{ color: 'red' }}&gt;{error}&lt;/p&gt;}
-            {success && &lt;p style={{ color: 'green' }}&gt;{success}&lt;/p&gt;}
-
-            {/* The Form */}
-            &lt;form onSubmit={handleSubmit} style={{ maxWidth: '300px' }}&gt;
-                &lt;div style={{ marginBottom: '10px' }}&gt;
-                    &lt;label&gt;
-                        Name:
-                        &lt;input
-                            type="text"
-                            value={name}
-                            onChange={(e) =&gt; setName(e.target.value)}
-                            required
-                            style={{ display: 'block', width: '100%' }}
-                        /&gt;
-                    &lt;/label&gt;
-                &lt;/div&gt;
-
-                &lt;div style={{ marginBottom: '10px' }}&gt;
-                    &lt;label&gt;
-                        Email:
-                        &lt;input
-                            type="email"
-                            value={email}
-                            onChange={(e) =&gt; setEmail(e.target.value)}
-                            required
-                            style={{ display: 'block', width: '100%' }}
-                        /&gt;
-                    &lt;/label&gt;
-                &lt;/div&gt;
-
-                &lt;button type="submit" disabled={loading}&gt;
-                    Create User
-                &lt;/button&gt;
-            &lt;/form&gt;
-        &lt;/div&gt;
-    );
-};
-
-export default CreateUser;
-</code></pre>
-
-            <h3>Validation</h3>
-            <p>Add more client-side checks (e.g., min length, specific patterns).</p>
-
-        </article>
-
-        <article>
-
-            <h2>DRY – Don't repeat yourself</h2>
-
-            <h3>src/hooks/useApi.js</h3>
-            <pre class="code-block"><code>// src/hooks/useApi.js
-
-import { useState, useCallback } from 'react';
-
-/**
- * A universal hook for making HTTP requests to your backend, which always
- * returns JSON in the structure:
- *   {
- *     "status": "success" | "error",
- *     "message": "Some message",
- *     "data": { ... } or [...]
- *   }
- *
- * STATE EXPLANATION:
- *   - data: The server's "data" field if "success"
- *   - message: The server's "message" field
- *   - error: Holds an error message if the request fails (HTTP error, or status="error")
- *   - loading: True while the request is ongoing
- *
- * FUNCTION:
- *   doRequest(options):
- *     options = { url, method='GET', body=null, headers={} }
- *
- * RETURNS an object:
- *   - { success: true, data } if the request is successful
- *   - { success: false, error } if not
- */
-export function useApi() {
-    const [data, setData] = useState(null);     // success payload
-    const [message, setMessage] = useState(null);  // success message
-    const [error, setError] = useState(null);   // error message (if any)
-    const [loading, setLoading] = useState(false);
-
-    /**
-     * doRequest is the function to call in your components.
-     * e.g. doRequest({ url: '/api/lehrbetriebe', method: 'GET' })
-     */
-    const doRequest = useCallback(
-        async ({ url, method = 'GET', body = null, headers = {} }) => {
-            setLoading(true);
-            setError(null);
-            setMessage(null);
-            setData(null);
-
-            try {
-                const response = await fetch(url, {
-                    method,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        ...headers,
-                    },
-                    body: body ? JSON.stringify(body) : null,
-                });
-
-                // If HTTP status not 2xx, parse what the server sent
-                if (!response.ok) {
-                    const errorJson = await response.json().catch(() => null);
-                    const errorMsg =
-                        (errorJson?.message) ||
-                        `HTTP error: ${response.status}`;
-
-                    setError(errorMsg);
-                    return { success: false, error: errorMsg };
-                }
-
-                // On success status, parse
-                const json = await response.json();
-                // Expected: { status, message, data }
-                const { status, message, data } = json;
-
-                // If "status" is "error" in JSON, treat it as an error
-                if (status === 'error') {
-                    const errorMsg = message || 'Server returned status: error';
-                    setError(errorMsg);
-                    return { success: false, error: errorMsg };
-                }
-
-                // Otherwise, "success"
-                setMessage(message);
-                setData(data);
-
-                return { success: true, data };
-            } catch (err) {
-                // Network or unexpected error
-                const errorMsg = err.message || 'Unknown network error';
-                setError(errorMsg);
-                return { success: false, error: errorMsg };
-            } finally {
-                setLoading(false);
-            }
-        },
-        []
-    );
-
-    return { data, message, error, loading, doRequest };
+export const ComponentName = () => {
+    return &lt;div&gt;ComponentName&lt;/div&gt;
 }</code></pre>
-            <a href="https://www.w3schools.com/react/react_usecallback.asp" target="_blank" rel="noopener noreferrer">https://www.w3schools.com/react/react_usecallback.asp</a>
 
-            <h3>src/pages/lehrbetriebe/Lehrbetriebe.js</h3>
-            <pre class="code-block"><code>// src/pages/lehrbetriebe/Lehrbetriebe.js
+            <h3>rafce</h3>
+            <p></p>
+            <pre class="code-block"><code>import React from 'react'
 
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useApi } from '../../hooks/useApi';
-
-function Lehrbetriebe() {
-    const { data, message, error, loading, doRequest } = useApi();
-
-    useEffect(() => {
-        // Fetch all Lehrbetriebe once the component mounts
-        doRequest({ url: 'https://api.test/lehrbetriebe', method: 'GET' });
-    }, [doRequest]);
-
-    if (loading) return &lt;p&gt;Loading...&lt;/p&gt;;
-    if (error) return &lt;p style={{ color: 'red' }}&gt;{error}&lt;/p&gt;;
-
+const ComponentName = () => {
     return (
-        &lt;div&gt;
-            &lt;h2&gt;Lehrbetriebe&lt;/h2&gt;
-            {message && &lt;p&gt;{message}&lt;/p&gt;}
-            {data?.length ? (
-                &lt;div&gt;
-                    {data.map(({ id_lehrbetrieb, firma }) =&gt; (
-                        &lt;p key={id_lehrbetrieb}&gt; &lt;Link to={`/lehrbetriebe/${id_lehrbetrieb}`}&gt;{firma}&lt;/Link&gt;&lt;/p&gt;
-                    ))}
-                &lt;/div&gt;
-            ) : (
-                &lt;p&gt;No Lehrbetriebe found.&lt;/p&gt;
-            )}
-        &lt;/div&gt;
-    );
+        &lt;div&gt;ComponentName&lt;/div&gt;
+    )
 }
 
-export default Lehrbetriebe;</code></pre>
+export default ComponentName</code></pre>
 
-            <h3>src/pages/lehrbetriebe/ReadLehrbetrieb.js</h3>
-            <pre class="code-block"><code>// src/pages/lehrbetriebe/ReadLehrbetrieb.js
+            <h3>rfce</h3>
+            <p>Generates a functional component with an export statement.</p>
+            <pre class="code-block"><code>import React from 'react'
 
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useApi } from '../../hooks/useApi';
+function ComponentName() {
+    return &lt;div&gt;ComponentName&lt;/div&gt;
+}
 
-const ReadLehrbetrieb = () => {
-    const { id } = useParams();
-    const { data, message, error, loading, doRequest } = useApi();
+export default ComponentName</code></pre>
 
-    // Fetch the Lehrbetrieb once the component mounts or the id changes
-    useEffect(() => {
-        doRequest({ url: `https://api.test/lehrbetriebe/${id}` });
-    }, [doRequest, id]);
+            <h3>rcc</h3>
+            <p>Generates a class component skeleton.</p>
+            <pre class="code-block"><code>import React, { Component } from 'react'
 
-    if (loading) {
-        return &lt;div&gt;Loading...&lt;/div&gt;;
+export default class ComponentName extends Component {
+    render() {
+        return &lt;div&gt;ComponentName&lt;/div&gt;
     }
+}</code></pre>
 
-    if (error) {
-        return &lt;div style={{ color: 'red' }}&gt;Error: {error}&lt;/div&gt;;
+            <h3>useState</h3>
+            <h3>useStateSnippet</h3>
+            <p>Quickly create a state hook.</p>
+            <pre class="code-block"><code>const [state, setState] = useState(initialState)</code></pre>
+
+            <h3>useEffect</h3>
+            <h3>useEffectSnippet</h3>
+            <p>Quickly create an effect hook.</p>
+            <pre class="code-block"><code>useEffect(() => {
+    // Effect logic here
+    return () => {
+        // Cleanup logic here
     }
+}, [dependencies])</code></pre>
 
-    return (
-        &lt;div&gt;
-            &lt;h1&gt;Lehrbetrieb Details&lt;/h1&gt;
-            {/* Show any success message the server returned */}
-            {message && &lt;p&gt;{message}&lt;/p&gt;}
-
-            {/* Display the single Lehrbetrieb (assuming data is an object, not an array) */}
-            {data && (
-                &lt;div&gt;
-                    &lt;p&gt;ID: {data.id_lehrbetrieb}&lt;/p&gt;
-                    &lt;p&gt;Name: {data.firma}&lt;/p&gt;
-                &lt;/div&gt;
-            )}
-        &lt;/div&gt;
-    );
-};
-
-export default ReadLehrbetrieb;</code></pre>
-
-            <h3>src/pages/lehrbetriebe/CreateLehrbetrieb.js</h3>
-            <pre class="code-block"><code>// src/pages/lehrbetriebe/CreateLehrbetrieb.js
-
-import React, { useState } from 'react';
-import { useApi } from '../../hooks/useApi';
-
-function CreateLehrbetrieb() {
-    const { loading, error, message, doRequest } = useApi();
-
-    // Local states for each field in tbl_lehrbetrieb
-    const [firma, setFirma] = useState('');
-    const [strasse, setStrasse] = useState('');
-    const [plz, setPlz] = useState('');
-    const [ort, setOrt] = useState('');
-
-    // Handler for creating a new Lehrbetrieb
-    const handleCreate = async () => {
-        const result = await doRequest({
-            url: 'https://api.test/lehrbetriebe',
-            method: 'POST',
-            body: {
-                firma,
-                strasse,
-                plz,
-                ort,
-            },
-        });
-
-        if (result.success) {
-            // Optionally clear fields after success
-            setFirma('');
-            setStrasse('');
-            setPlz('');
-            setOrt('');
-            console.log('Created Lehrbetrieb:', result.data);
-        } else {
-            console.error('Create failed:', result.error);
-        }
-    };
-
-    return (
-        &lt;div&gt;
-            &lt;h2&gt;Create New Lehrbetrieb&lt;/h2&gt;
-
-            {/* Display a loading message if the request is ongoing */}
-            {loading && &lt;p&gt;Creating Lehrbetrieb...&lt;/p&gt;}
-
-            {/* Display an error if one occurs */}
-            {error && &lt;p style={{ color: 'red' }}&gt;Error: {error}&lt;/p&gt;}
-
-            {/* Display success message from server if any */}
-            {message && &lt;p style={{ color: 'green' }}&gt;{message}&lt;/p&gt;}
-
-            {/* Firma */}
-            &lt;div style={{ marginBottom: '10px' }}&gt;
-                &lt;label htmlFor="firma" style={{ display: 'block' }}&gt;
-                    Firma
-                &lt;/label&gt;
-                &lt;input
-                    type="text"
-                    id="firma"
-                    value={firma}
-                    onChange={(e) =&gt; setFirma(e.target.value)}
-                /&gt;
-            &lt;/div&gt;
-
-            {/* Strasse */}
-            &lt;div style={{ marginBottom: '10px' }}&gt;
-                &lt;label htmlFor="strasse" style={{ display: 'block' }}&gt;
-                    Strasse
-                &lt;/label&gt;
-                &lt;input
-                    type="text"
-                    id="strasse"
-                    value={strasse}
-                    onChange={(e) =&gt; setStrasse(e.target.value)}
-                /&gt;
-            &lt;/div&gt;
-
-            {/* PLZ */}
-            &lt;div style={{ marginBottom: '10px' }}&gt;
-                &lt;label htmlFor="plz" style={{ display: 'block' }}&gt;
-                    PLZ
-                &lt;/label&gt;
-                &lt;input
-                    type="text"
-                    id="plz"
-                    value={plz}
-                    onChange={(e) =&gt; setPlz(e.target.value)}
-                /&gt;
-            &lt;/div&gt;
-
-            {/* Ort */}
-            &lt;div style={{ marginBottom: '10px' }}&gt;
-                &lt;label htmlFor="ort" style={{ display: 'block' }}&gt;
-                    Ort
-                &lt;/label&gt;
-                &lt;input
-                    type="text"
-                    id="ort"
-                    value={ort}
-                    onChange={(e) =&gt; setOrt(e.target.value)}
-                /&gt;
-            &lt;/div&gt;
-
-            &lt;button onClick={handleCreate} disabled={loading}&gt;
-                {loading ? 'Creating...' : 'Create'}
-            &lt;/button&gt;
-        &lt;/div&gt;
-    );
-}
-
-export default CreateLehrbetrieb;</code></pre>
-
-        </article>
-
-        <article>
-
-            <h2>CSS - Layout, Header, Footer</h2>
-
-            <h3>src/components/Layout.js</h3>
-            <pre class="code-block"><code>import '../styles/Layout.css'</code></pre>
-
-            <h3>src/styles/Layout.css</h3>
-            <pre class="code-block"><code>#root {
-    display: grid;
-    justify-content: center;
-}
-header, main, footer {
-    width: 1200px;
-    max-width: 96vw;
-}</code></pre>
-
-            <h3>src/components/Header.js</h3>
-            <pre class="code-block"><code>import '../styles/Header.css';</code></pre>
-
-            <h3>src/styles/Header.css</h3>
-            <pre class="code-block"><code>header {
-    padding: var(--default-gap) 0;
-
-    display: grid;
-    grid-template-columns: max-content;
-    justify-content: end;
-    align-items: center;
-}
-header > nav {
-    display: flex;
-    gap: var(--default-gap);
-}</code></pre>
-
-            <h3>src/components/Footer.js</h3>
-            <pre class="code-block">import '../styles/Footer.css';<code></code></pre>
-
-            <h3>src/styles/Footer.css</h3>
-            <pre class="code-block"><code>footer {
-    padding: var(--default-gap) 0;
-
-    display: grid;
-    align-items: center;
-    justify-content: center;
-}</code></pre>
+            <h3>Header</h3>
+            <p>Imports /components/Header.js</p>
+            <pre class="code-block"><code>import { Header } from './components/Header'</code></pre>
 
         </article>
 
